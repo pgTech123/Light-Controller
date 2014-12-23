@@ -1,0 +1,36 @@
+main
+
+
+UI CLASSES
+
+MainWindow	Docking space and allow menu interaction
+
+IO		Serial Port Interface
+
+Fader		Fader
+
+FadersGroup	Group of faders
+
+Fixtures	Displays all individual fixture available + IO file
+
+Group		Display all groups available and allow to record new groups
+
+Scenes 		Display scenes available and allow to record new scenes
+
+Timing		Allow to record new cues and to play music
+
+CueVisualizator
+
+SceneVisualizator
+
+
+
+STRUCTUES CLASSES
+
+Cue		Stores data of a particular cue
+
+Scene		Stores data of a particular scene
+
+Group		Stores data of a partiucular group
+
+Show		Stores data of the show
