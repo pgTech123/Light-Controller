@@ -6,7 +6,16 @@
 #include <QMessageBox>
 #include <QTime>
 #include <QTimer>
-#include <windows.h>
+
+#ifdef WIN32
+// Windows
+    #include "rs232win.h"
+#elif __unix__
+// Linux
+    #include "rs232linux.h"
+#else
+//NOT SUPPORTED: TODO: error
+#endif
 
 namespace Ui {
 class SerialPort;
@@ -42,10 +51,8 @@ private:
 
     bool portConnected;
 
-    /* Serial port data */
-    HANDLE hcom;
-    DCB dcb;
-    _COMMTIMEOUTS CommTimeouts;
+    /* RS232 */
+    RS232 m_rs232;
 
     /* Timers */
     QTime *tempsDEcriture;

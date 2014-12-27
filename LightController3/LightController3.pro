@@ -1,5 +1,5 @@
-INCLUDEPATH += "C:\\Program Files (x86)\\FMOD SoundSystem\\FMOD Programmers API Win32\\api\\inc"
-LIBS += -lfmodex
+#INCLUDEPATH += "C:\\Program Files (x86)\\FMOD SoundSystem\\FMOD Programmers API Win32\\api\\inc"
+#LIBS += -lfmodex
 
 QT+=widgets
 
@@ -12,7 +12,9 @@ SOURCES += \
     groups.cpp \
     scenes.cpp \
     faders.cpp \
-    timing.cpp
+    timing.cpp \
+    rs232win.cpp \
+    rs232linux.cpp
 
 FORMS += \
     mainwindow.ui \
@@ -32,7 +34,9 @@ HEADERS += \
     groups.h \
     scenes.h \
     faders.h \
-    timing.h
+    timing.h \
+    rs232win.h \
+    rs232linux.h
 
 RESOURCES += \
     Ressources.qrc

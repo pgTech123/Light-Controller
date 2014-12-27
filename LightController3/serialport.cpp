@@ -9,6 +9,7 @@ SerialPort::SerialPort(QWidget *parent) :
     this->setFixedSize(300,145);
 
     portConnected = false;
+    dataToTransmit = NULL;
     numberOfAddresses = 0;
 
     tempsDEcriture = new QTime();
@@ -27,7 +28,9 @@ SerialPort::~SerialPort()
     if(portConnected ==true){
         disconnectPort();
     }
-    delete[] dataToTransmit;
+    if(dataToTransmit != NULL){
+        delete[] dataToTransmit;
+    }
 }
 
 void SerialPort::closeEvent(QCloseEvent *closeEvent)
@@ -110,54 +113,13 @@ bool SerialPort::initConnection(bool silent)
         return false;
     }
 
-    hcom=CreateFileA(comPortName,
-                  GENERIC_READ|GENERIC_WRITE,
-                  0,
-                  NULL,
-                  OPEN_EXISTING,
-                  0,
-                  NULL);
-    if(hcom==INVALID_HANDLE_VALUE)
+    if(!m_rs232.init(comPortName))
     {
         if(!silent){
             QMessageBox::warning(this, "Error", "Unable to open the port specified");
         }
         return false;
     }
-
-    dcb.DCBlength= sizeof(DCB);
-
-    dcb.ByteSize=8;
-
-    //L'électronique ne fonctionne que sous 19200 Bd.
-    dcb.BaudRate=CBR_19200;
-
-    dcb.fBinary=true;
-    dcb.fParity=false;
-
-    dcb.fOutxCtsFlow=false;     //pas supposé causer de prob si signal appliqué
-    dcb.fOutxDsrFlow= false;    //pas supposé causer de prob si signal appliqué
-
-    dcb.fDtrControl=DTR_CONTROL_ENABLE;
-    dcb.fRtsControl=RTS_CONTROL_ENABLE;
-
-    dcb.fDsrSensitivity=false;
-    dcb.Parity= NOPARITY;
-
-    dcb.StopBits = TWOSTOPBITS;
-
-    dcb.XoffLim = 16;
-    dcb.XonLim = 16;
-
-
-    SetCommState(hcom,&dcb);
-
-    CommTimeouts.ReadIntervalTimeout         = 10;
-    CommTimeouts.ReadTotalTimeoutMultiplier  = 0;
-    CommTimeouts.ReadTotalTimeoutConstant    = 100;
-    CommTimeouts.WriteTotalTimeoutMultiplier = 0;
-    CommTimeouts.WriteTotalTimeoutConstant   = 100;
-    SetCommTimeouts(hcom,&CommTimeouts);
 
     portConnected = true;
     ui->labelConnectionStatus->setText("Connected");
@@ -169,7 +131,6 @@ bool SerialPort::initConnection(bool silent)
 void SerialPort::disconnectPort()
 {
     disconnect(waitForNextWriting,SIGNAL(timeout()),this,SLOT(writeOnPort()));
-    CloseHandle(hcom);
     portConnected = false;
     ui->labelConnectionStatus->setText("Not Connected");
     ui->pushButtonConnect->setText("Connect");
@@ -189,17 +150,11 @@ void SerialPort::writeOnPort()
     {
         for(int i = 0; i<numberOfAddresses; i++)
         {
-            //ÉCRITURE D'UNE ADRESSE
-            long donnee = (long)dataToTransmit[i];
-            DWORD transmitted;
-            WriteFile(hcom,&donnee,1,&transmitted,NULL);
-            Sleep(2);
+            //Write one address
+            m_rs232.write((long)dataToTransmit[i]);
         }
 
-        //STROBE
-        EscapeCommFunction(hcom,SETRTS);
-        EscapeCommFunction(hcom,CLRRTS);
-        EscapeCommFunction(hcom,SETRTS);
+        m_rs232.strobe();
 
         //STATISTIQUES D'ÉCRITURE
         ui->label_DigitWritingTime->setNum(tempsDEcriture->elapsed());    //on écrit le temps que ca a pris à écrire

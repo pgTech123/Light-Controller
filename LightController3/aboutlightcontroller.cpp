@@ -9,11 +9,6 @@ AboutLightController::AboutLightController(QWidget *parent) :
 
     QIcon *icon = new QIcon(ICON_PATH);
     this->setWindowIcon(*icon);
-
-    QPixmap pixmapLogo;
-    pixmapLogo.load(PATH_TO_LOGO);
-    pixmapLogo = pixmapLogo.scaled(ui->logo->width() ,ui->logo->height(),Qt::KeepAspectRatio);
-    ui->logo->setPixmap(pixmapLogo);
 }
 
 AboutLightController::~AboutLightController()
