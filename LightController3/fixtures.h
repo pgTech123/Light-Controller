@@ -2,7 +2,7 @@
 #define FIXTURES_H
 
 #include <QDockWidget>
-#include <QCloseEvent>
+#include "dockablewindow.h"
 
 #define FIXTURE_INFO_PATH   ./../structure.txt
 
@@ -10,7 +10,7 @@ namespace Ui {
 class Fixtures;
 }
 
-class Fixtures : public QDockWidget
+class Fixtures : public DockableWindow
 {
     Q_OBJECT
 
@@ -18,15 +18,10 @@ public:
     explicit Fixtures(QWidget *parent = 0);
     ~Fixtures();
 
-    void closeEvent(QCloseEvent*);
-
     void unselectAll();
 
 private:
     void readStructureInfo();
-
-signals:
-    void hidden();
 
 private:
     Ui::Fixtures *ui;

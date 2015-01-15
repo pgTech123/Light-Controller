@@ -2,24 +2,19 @@
 #define TIMING_H
 
 #include <QDockWidget>
-#include <QCloseEvent>
+#include "dockablewindow.h"
 
 namespace Ui {
 class Timing;
 }
 
-class Timing : public QDockWidget
+class Timing : public DockableWindow
 {
     Q_OBJECT
 
 public:
     explicit Timing(QWidget *parent = 0);
     ~Timing();
-
-    void closeEvent(QCloseEvent*);
-
-signals:
-    void hidden();
 
 private:
     Ui::Timing *ui;

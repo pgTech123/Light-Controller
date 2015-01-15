@@ -2,7 +2,7 @@
 #define SERIALPORT_H
 
 #include <QDockWidget>
-#include <QCloseEvent>
+#include "dockablewindow.h"
 #include <QMessageBox>
 #include <QTime>
 #include <QTimer>
@@ -14,22 +14,20 @@
 // Linux
     #include "rs232linux.h"
 #else
-//NOT SUPPORTED: TODO: error
+//TODO: Not Supported error + disable serial port dockable window
 #endif
 
 namespace Ui {
 class SerialPort;
 }
 
-class SerialPort : public QDockWidget
+class SerialPort : public DockableWindow
 {
     Q_OBJECT
 
 public:
     explicit SerialPort(QWidget *parent = 0);
     ~SerialPort();
-
-    void closeEvent(QCloseEvent*);
 
     bool initConnection(bool silent = false);
     void disconnectPort();
@@ -38,9 +36,6 @@ public:
 
     bool setNumberOfAddresses(int numOfAddr);
     bool setData(int iData, int iAddress);
-
-signals:
-    void hidden();
 
 private slots:
     void on_pushButtonConnect_clicked();

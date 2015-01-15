@@ -14,7 +14,8 @@ SOURCES += \
     faders.cpp \
     timing.cpp \
     rs232win.cpp \
-    rs232linux.cpp
+    rs232linux.cpp \
+    dockablewindow.cpp
 
 FORMS += \
     mainwindow.ui \
@@ -36,7 +37,8 @@ HEADERS += \
     faders.h \
     timing.h \
     rs232win.h \
-    rs232linux.h
+    rs232linux.h \
+    dockablewindow.h
 
 RESOURCES += \
     Ressources.qrc

@@ -2,7 +2,7 @@
 #include "ui_serialport.h"
 
 SerialPort::SerialPort(QWidget *parent) :
-    QDockWidget(parent),
+    DockableWindow(parent),
     ui(new Ui::SerialPort)
 {
     ui->setupUi(this);
@@ -31,13 +31,6 @@ SerialPort::~SerialPort()
     if(dataToTransmit != NULL){
         delete[] dataToTransmit;
     }
-}
-
-void SerialPort::closeEvent(QCloseEvent *closeEvent)
-{
-    closeEvent->ignore();
-    this->hide();
-    emit hidden();
 }
 
 void SerialPort::on_pushButtonConnect_clicked()

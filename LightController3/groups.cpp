@@ -2,7 +2,7 @@
 #include "ui_groups.h"
 
 Groups::Groups(QWidget *parent) :
-    QDockWidget(parent),
+    DockableWindow(parent),
     ui(new Ui::Groups)
 {
     ui->setupUi(this);
@@ -12,11 +12,4 @@ Groups::Groups(QWidget *parent) :
 Groups::~Groups()
 {
     delete ui;
-}
-
-void Groups::closeEvent(QCloseEvent *closeEvent)
-{
-    closeEvent->ignore();
-    this->hide();
-    emit hidden();
 }

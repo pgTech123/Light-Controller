@@ -2,13 +2,13 @@
 #define FADERS_H
 
 #include <QDockWidget>
-#include <QCloseEvent>
+#include "dockablewindow.h"
 
 namespace Ui {
 class Faders;
 }
 
-class Faders : public QDockWidget
+class Faders : public DockableWindow
 {
     Q_OBJECT
 
@@ -16,10 +16,6 @@ public:
     explicit Faders(QWidget *parent = 0);
     ~Faders();
 
-    void closeEvent(QCloseEvent*);
-
-signals:
-    void hidden();
 private:
     Ui::Faders *ui;
 };

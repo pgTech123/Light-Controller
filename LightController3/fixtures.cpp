@@ -2,7 +2,7 @@
 #include "ui_fixtures.h"
 
 Fixtures::Fixtures(QWidget *parent) :
-    QDockWidget(parent),
+    DockableWindow(parent),
     ui(new Ui::Fixtures)
 {
     ui->setupUi(this);
@@ -15,13 +15,6 @@ Fixtures::Fixtures(QWidget *parent) :
 Fixtures::~Fixtures()
 {
     delete ui;
-}
-
-void Fixtures::closeEvent(QCloseEvent *closeEvent)
-{
-    closeEvent->ignore();
-    this->hide();
-    emit hidden();
 }
 
 void Fixtures::unselectAll()

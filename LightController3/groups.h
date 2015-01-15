@@ -2,23 +2,19 @@
 #define GROUPS_H
 
 #include <QDockWidget>
-#include <QCloseEvent>
+#include "dockablewindow.h"
 
 namespace Ui {
 class Groups;
 }
 
-class Groups : public QDockWidget
+class Groups : public DockableWindow
 {
     Q_OBJECT
 
 public:
     explicit Groups(QWidget *parent = 0);
     ~Groups();
-    void closeEvent(QCloseEvent*);
-
-signals:
-    void hidden();
 
 private:
     Ui::Groups *ui;
