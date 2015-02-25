@@ -1,3 +1,12 @@
+/*************************************************************************
+ * Project   :      GV Light Controller 3
+ * Filename  :      mainwindow.cpp
+ * Author    :      Pascal Gendron
+ * Version   :      3.0
+ *
+ * Copyright :      GNU GENERAL PUBLIC LICENSE
+ * ************************************************************************/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 

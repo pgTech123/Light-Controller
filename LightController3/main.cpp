@@ -1,11 +1,10 @@
 /*************************************************************************
- * Project:     GV Light Controller 3
+ * Project   :      GV Light Controller 3
+ * Filename  :      main.cpp
+ * Author    :      Pascal Gendron
+ * Version   :      3.0
  *
- * File Name:   main.cpp
- *
- * Author:      Pascal Gendron
- *
- * Version:     0.3.0
+ * Copyright :      GNU GENERAL PUBLIC LICENSE
  * ************************************************************************/
 
 #include <QApplication>

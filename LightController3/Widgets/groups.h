@@ -5,6 +5,8 @@
 #include <QString>
 #include "dockablewindow.h"
 
+//TODO: checkbox to be able to not save groups. Warning when uncheck
+
 namespace Ui {
 class Groups;
 }

@@ -1,3 +1,12 @@
+/*************************************************************************
+ * Project   :      GV Light Controller 3
+ * Filename  :      aboutlightcontroller.h
+ * Author    :      Pascal Gendron
+ * Version   :      3.0
+ *
+ * Copyright :      GNU GENERAL PUBLIC LICENSE
+ * ************************************************************************/
+
 #ifndef ABOUTLIGHTCONTROLLER_H
 #define ABOUTLIGHTCONTROLLER_H
 
