@@ -5,40 +5,41 @@ QT+=widgets
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    aboutlightcontroller.cpp \
-    serialport.cpp \
-    fixtures.cpp \
-    groups.cpp \
-    scenes.cpp \
-    faders.cpp \
-    timing.cpp \
     rs232win.cpp \
     rs232linux.cpp \
-    dockablewindow.cpp
+    Widgets/aboutlightcontroller.cpp \
+    Widgets/dockablewindow.cpp \
+    Widgets/faders.cpp \
+    Widgets/fixtures.cpp \
+    Widgets/groups.cpp \
+    Widgets/mainwindow.cpp \
+    Widgets/scenes.cpp \
+    Widgets/serialport.cpp \
+    Widgets/timing.cpp \
+    History/localhistory.cpp \
+    History/history.cpp
 
 FORMS += \
-    mainwindow.ui \
-    aboutlightcontroller.ui \
-    serialport.ui \
-    fixtures.ui \
-    groups.ui \
-    scenes.ui \
-    faders.ui \
-    timing.ui
+    Widgets/mainwindow.ui \
+    Widgets/aboutlightcontroller.ui \
+    Widgets/serialport.ui \
+    Widgets/fixtures.ui \
+    Widgets/groups.ui \
+    Widgets/scenes.ui \
+    Widgets/faders.ui \
+    Widgets/timing.ui
 
 HEADERS += \
-    mainwindow.h \
-    aboutlightcontroller.h \
-    serialport.h \
-    fixtures.h \
-    groups.h \
-    scenes.h \
-    faders.h \
-    timing.h \
     rs232win.h \
     rs232linux.h \
-    dockablewindow.h
-
-RESOURCES += \
-    Ressources.qrc
+    Widgets/aboutlightcontroller.h \
+    Widgets/dockablewindow.h \
+    Widgets/faders.h \
+    Widgets/fixtures.h \
+    Widgets/groups.h \
+    Widgets/mainwindow.h \
+    Widgets/scenes.h \
+    Widgets/serialport.h \
+    Widgets/timing.h \
+    History/localhistory.h \
+    History/history.h

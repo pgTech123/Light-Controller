@@ -5,9 +5,6 @@
 #include <QPixmap>
 #include <QIcon>
 
-#define PATH_TO_LOGO    "./../GVisionLogo.png"
-#define ICON_PATH   "./../GVisionLogo.ico"
-
 namespace Ui {
 class AboutLightController;
 }

@@ -2,6 +2,7 @@
 #define SCENES_H
 
 #include <QDockWidget>
+#include <QString>
 #include "dockablewindow.h"
 
 namespace Ui {
@@ -15,6 +16,8 @@ class Scenes : public DockableWindow
 public:
     explicit Scenes(QWidget *parent = 0);
     ~Scenes();
+
+    bool loadScene(QString path);
 
 private:
     Ui::Scenes *ui;

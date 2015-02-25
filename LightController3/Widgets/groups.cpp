@@ -13,3 +13,8 @@ Groups::~Groups()
 {
     delete ui;
 }
+
+bool Groups::loadGroups(QString path)
+{
+
+}

@@ -12,3 +12,18 @@ Timing::~Timing()
 {
     delete ui;
 }
+
+bool Timing::loadShow(QString path)
+{
+
+}
+
+QString Timing::getPathToScenes()
+{
+
+}
+
+QString Timing::getPathToGroups()
+{
+
+}

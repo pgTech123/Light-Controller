@@ -2,6 +2,7 @@
 #define GROUPS_H
 
 #include <QDockWidget>
+#include <QString>
 #include "dockablewindow.h"
 
 namespace Ui {
@@ -15,6 +16,8 @@ class Groups : public DockableWindow
 public:
     explicit Groups(QWidget *parent = 0);
     ~Groups();
+
+    bool loadGroups(QString path);
 
 private:
     Ui::Groups *ui;

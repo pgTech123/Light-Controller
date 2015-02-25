@@ -10,10 +10,10 @@
 
 #include <QApplication>
 #include <QIcon>
-#include "mainwindow.h"
+#include "Widgets/mainwindow.h"
 
 /* Program Parameters */
-#define ICON_PATH   "./../GVisionLogo.ico"
+#define ICON_PATH   "./../Ressources/GVisionLogo.ico"
 #define APP_NAME    "GVision Ligth Controller 3.0"
 
 int main(int argc, char *argv[])

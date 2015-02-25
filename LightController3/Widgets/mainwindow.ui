@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -33,7 +33,6 @@
      </property>
      <addaction name="actionShow"/>
      <addaction name="separator"/>
-     <addaction name="actionCue_List"/>
      <addaction name="actionScenes_List"/>
      <addaction name="actionGroup_List"/>
     </widget>
@@ -50,6 +49,7 @@
     </property>
     <addaction name="actionPrevious"/>
     <addaction name="actionNext"/>
+    <addaction name="separator"/>
     <addaction name="actionAutoconnect"/>
    </widget>
    <widget class="QMenu" name="menuHelp">

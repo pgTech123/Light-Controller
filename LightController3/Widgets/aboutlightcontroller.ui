@@ -55,7 +55,7 @@ Email:                 pgendron40@gmail.com</string>
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../ressources/GVisionLogo.png</pixmap>
+    <pixmap>../../Ressources/GVisionLogo.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

@@ -2,6 +2,7 @@
 #define TIMING_H
 
 #include <QDockWidget>
+#include <QString>
 #include "dockablewindow.h"
 
 namespace Ui {
@@ -15,6 +16,10 @@ class Timing : public DockableWindow
 public:
     explicit Timing(QWidget *parent = 0);
     ~Timing();
+
+    bool loadShow(QString path);
+    QString getPathToScenes();
+    QString getPathToGroups();
 
 private:
     Ui::Timing *ui;

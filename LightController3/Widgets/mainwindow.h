@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QString>
+#include <QDesktopWidget>
+
+//Widgets
 #include "faders.h"
 #include "timing.h"
 #include "fixtures.h"
@@ -10,6 +16,20 @@
 #include "scenes.h"
 #include "serialport.h"
 #include "aboutlightcontroller.h"
+
+//History
+#include "History/history.h"
+
+/*DEBUG*/
+#include <iostream>
+using namespace std;
+/*END DEBUG*/
+
+#define HISTORY_LENGTH      50
+
+typedef enum{
+    GO_ON, ABORT
+}SavingStatus;
 
 namespace Ui {
 class MainWindow;
@@ -25,23 +45,28 @@ public:
 
     void closeEvent(QCloseEvent*);
 
+private:
+    void initialize();
+
+    SavingStatus doYouWantToSaveChanges();
+
 signals:
-    void record();
-    void previous();
-    void next();
+    void undoSignal();
+    void redoSignal();
 
 private slots:
-    /* ctrl-z fnc */
-    void requestToRecord();
+    void enableUndo(bool enable);
+    void enableRedo(bool enable);
+    void modificationUnsaved();
 
     /* Menu File */
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
         /* Submenu Open */
         void on_actionShow_triggered();
-        void on_actionCue_List_triggered();
         void on_actionScenes_List_triggered();
         void on_actionGroup_List_triggered();
+    void on_actionQuit_triggered();
 
     /* Menu Edit */
     void on_actionPrevious_triggered();
@@ -71,8 +96,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    bool m_bAllChangeSaved;
+    bool m_bAllModifSaved;
 
+    //Widgets
     Faders fadersWindows;
     Timing timingWindows;
     Fixtures fixturesWindow;
@@ -80,6 +106,9 @@ private:
     Scenes scenesWindows;
     SerialPort serialPortWindow;
     AboutLightController aboutLightController;
+
+    //History
+    History *m_GlobalHistory;
 };
 
 #endif // MAINWINDOW_H

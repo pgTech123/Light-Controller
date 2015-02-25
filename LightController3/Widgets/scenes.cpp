@@ -13,3 +13,8 @@ Scenes::~Scenes()
 {
     delete ui;
 }
+
+bool Scenes::loadScene(QString path)
+{
+
+}
