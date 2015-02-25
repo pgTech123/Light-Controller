@@ -14,7 +14,22 @@ Scenes::~Scenes()
     delete ui;
 }
 
-bool Scenes::loadScene(QString path)
+bool Scenes::loadScenes(QString path)
+{
+    return true;
+}
+
+bool Scenes::saveScenes(bool saveAs)
+{
+    return true;
+}
+
+QString Scenes::getPath()
+{
+    return QString("");
+}
+
+void Scenes::reset()
 {
 
 }

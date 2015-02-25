@@ -15,15 +15,36 @@ Timing::~Timing()
 
 bool Timing::loadShow(QString path)
 {
+    return true;
+}
+
+bool Timing::saveShow(bool saveAs)
+{
+    //TODO
+    return true;
+}
+
+void Timing::setPathToScenes(QString path)
+{
+
+}
+
+void Timing::setPathToGroups(QString path)
+{
 
 }
 
 QString Timing::getPathToScenes()
 {
-
+    return QString("");
 }
 
 QString Timing::getPathToGroups()
+{
+    return QString("");
+}
+
+void Timing::reset()
 {
 
 }

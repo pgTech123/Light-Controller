@@ -36,6 +36,8 @@
      <addaction name="actionScenes_List"/>
      <addaction name="actionGroup_List"/>
     </widget>
+    <addaction name="actionNew"/>
+    <addaction name="separator"/>
     <addaction name="menuOpen"/>
     <addaction name="separator"/>
     <addaction name="actionSave_as"/>
@@ -206,6 +208,11 @@
   <action name="actionAutoconnect">
    <property name="text">
     <string>Autoconnect</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

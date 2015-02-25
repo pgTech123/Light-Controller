@@ -17,7 +17,10 @@ public:
     explicit Scenes(QWidget *parent = 0);
     ~Scenes();
 
-    bool loadScene(QString path);
+    bool loadScenes(QString path);
+    bool saveScenes(bool saveAs = false);
+    QString getPath();
+    void reset();
 
 private:
     Ui::Scenes *ui;

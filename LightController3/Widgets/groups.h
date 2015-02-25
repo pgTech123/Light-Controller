@@ -18,6 +18,10 @@ public:
     ~Groups();
 
     bool loadGroups(QString path);
+    bool saveGroups(bool saveAs = false);
+    QString getPath();
+
+    void reset();
 
 private:
     Ui::Groups *ui;

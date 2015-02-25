@@ -16,5 +16,20 @@ Groups::~Groups()
 
 bool Groups::loadGroups(QString path)
 {
+    return true;
+}
+
+bool Groups::saveGroups(bool saveAs)
+{
+    return true;
+}
+
+QString Groups::getPath()
+{
+    return QString("");
+}
+
+void Groups::reset()
+{
 
 }

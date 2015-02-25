@@ -117,16 +117,61 @@ void MainWindow::modificationUnsaved()
 
 
 /* Menu File */
+void MainWindow::on_actionNew_triggered()
+{
+    if(!m_bAllModifSaved){
+        if(doYouWantToSaveChanges() == ABORT){
+            return;
+        }
+    }
+    scenesWindows.reset();
+    groupsWindows.reset();
+    timingWindows.reset();
+    //insert everithing that needs to be reset for a new project here
+}
+
 void MainWindow::on_actionSave_as_triggered()
 {
-    /*TODO*/
-    m_bAllModifSaved = true;
+    save(true);
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    /*TODO*/
+    save();
+}
+
+void MainWindow::save(bool as)
+{
     m_bAllModifSaved = true;
+
+    //Save Groups and Scenes
+    if(!groupsWindows.saveGroups(as)){
+        QMessageBox::warning(this, "ERROR",
+                        tr("An error occured trying to save the Groups. Make sure the file is not")+
+                        tr(" open in an other programm and try again."));
+        m_bAllModifSaved = false;
+    }
+    if(!scenesWindows.saveScenes(as)){
+        QMessageBox::warning(this, "ERROR",
+                        tr("An error occured trying to save the Scenes. Make sure the file is not")+
+                        tr(" open in an other programm and try again."));
+        m_bAllModifSaved = false;
+    }
+
+    //Set path to scene and group in timing if they are saved
+    if(!scenesWindows.getPath().isEmpty()){
+        timingWindows.setPathToScenes(scenesWindows.getPath());
+    }
+    if(!groupsWindows.getPath().isEmpty()){
+        timingWindows.setPathToGroups(groupsWindows.getPath());
+    }
+
+    if(!timingWindows.saveShow(as)){
+        QMessageBox::warning(this, "ERROR",
+                        tr("An error occured trying to save the Show. Make sure the file is not")+
+                        tr(" open in an other programm and try again."));
+        m_bAllModifSaved = false;
+    }
 }
 
 /* Submenu Open */
@@ -150,7 +195,7 @@ void MainWindow::on_actionShow_triggered()
     }
 
     //Open Scenes and Groups associated with the show
-    if(scenesWindows.loadScene(timingWindows.getPathToScenes())){
+    if(scenesWindows.loadScenes(timingWindows.getPathToScenes())){
         QMessageBox::warning(this, "ERROR",
                              "An error orrured while trying to load the scenes");
     }
@@ -173,7 +218,7 @@ void MainWindow::on_actionScenes_List_triggered()
     if(path == NULL){   //Cancel Button Pressed
         return;
     }
-    if(scenesWindows.loadScene(path)){
+    if(scenesWindows.loadScenes(path)){
         QMessageBox::warning(this, "ERROR",
                              "An error orrured while trying to load the scenes");
     }

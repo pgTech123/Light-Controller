@@ -49,6 +49,7 @@ private:
     void initialize();
 
     SavingStatus doYouWantToSaveChanges();
+    void save(bool as = false);
 
 signals:
     void undoSignal();
@@ -60,6 +61,7 @@ private slots:
     void modificationUnsaved();
 
     /* Menu File */
+    void on_actionNew_triggered();
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
         /* Submenu Open */
