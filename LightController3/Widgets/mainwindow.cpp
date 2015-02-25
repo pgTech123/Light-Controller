@@ -40,6 +40,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete m_GlobalHistory;
+    delete m_LightsAvailable;
 }
 
 void MainWindow::closeEvent(QCloseEvent* closeEvent)
@@ -74,7 +75,9 @@ void MainWindow::initialize()
     connect(this, SIGNAL(undoSignal()), m_GlobalHistory, SLOT(undo()));
     connect(this, SIGNAL(redoSignal()), m_GlobalHistory, SLOT(redo()));
 
-    //TODO: read available
+    //Lights Available
+    m_LightsAvailable = new LightsAvailable(PATH_TO_LIGHTS_AVAILABLE);
+    //Insert all other element that needs to know which lights are available here
 }
 
 SavingStatus MainWindow::doYouWantToSaveChanges()
@@ -342,7 +345,15 @@ void MainWindow::on_actionSerial_Port_Interface_triggered()
 /* Menu About Us */
 void MainWindow::on_actionAbout_Light_Controller_3_triggered()
 {
-    aboutLightController.show();
+    aboutLightController.setGeometry(
+       QStyle::alignedRect(
+           Qt::LeftToRight,
+           Qt::AlignCenter,
+           aboutLightController.size(),
+           qApp->desktop()->availableGeometry()
+       ));
+   aboutLightController.show();
+   aboutLightController.activateWindow();
 }
 
 

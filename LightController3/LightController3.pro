@@ -17,7 +17,8 @@ SOURCES += \
     Widgets/serialport.cpp \
     Widgets/timing.cpp \
     History/localhistory.cpp \
-    History/history.cpp
+    History/history.cpp \
+    Widgets/lightsavailable.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -42,4 +43,5 @@ HEADERS += \
     Widgets/serialport.h \
     Widgets/timing.h \
     History/localhistory.h \
-    History/history.h
+    History/history.h \
+    Widgets/lightsavailable.h

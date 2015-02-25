@@ -6,7 +6,7 @@ SerialPort::SerialPort(QWidget *parent) :
     ui(new Ui::SerialPort)
 {
     ui->setupUi(this);
-    this->setFixedSize(300,145);
+    ui->dockWidgetContents->setLayout(ui->gridLayout);
 
     portConnected = false;
     dataToTransmit = NULL;

@@ -29,12 +29,11 @@
 //History
 #include "History/history.h"
 
-/*DEBUG*/
-#include <iostream>
-using namespace std;
-/*END DEBUG*/
+//Lights Available
+#include "lightsavailable.h"
 
-#define HISTORY_LENGTH      50
+#define HISTORY_LENGTH              50
+#define PATH_TO_LIGHTS_AVAILABLE    "./"     //TODO: find a good place
 
 typedef enum{
     GO_ON, ABORT
@@ -120,6 +119,9 @@ private:
 
     //History
     History *m_GlobalHistory;
+
+    //Lights Available
+    LightsAvailable *m_LightsAvailable;
 };
 
 #endif // MAINWINDOW_H
