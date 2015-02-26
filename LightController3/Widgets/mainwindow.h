@@ -33,7 +33,7 @@
 #include "lightsavailable.h"
 
 #define HISTORY_LENGTH              50
-#define PATH_TO_LIGHTS_AVAILABLE    "./"     //TODO: find a good place
+#define PATH_TO_LIGHTS_AVAILABLE    "./availableFixtures.config"     //TODO: find a good place
 
 typedef enum{
     GO_ON, ABORT

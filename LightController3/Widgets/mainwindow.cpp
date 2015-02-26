@@ -77,6 +77,20 @@ void MainWindow::initialize()
 
     //Lights Available
     m_LightsAvailable = new LightsAvailable(PATH_TO_LIGHTS_AVAILABLE);
+    if(m_LightsAvailable->getNumOfFixturesAvailable() < 0){
+        QMessageBox::warning(this, "Warning",
+                        tr("No Fixtures were found. \n")+
+                        tr("Verify that the script \"") +
+                        PATH_TO_LIGHTS_AVAILABLE +
+                        tr("\" exits and that its syntax is correct."));
+    }
+    else if(m_LightsAvailable->getNumOfFixturesAvailable() == 0){
+        QMessageBox::warning(this, "Warning",
+                        tr("No Fixtures are available.\n")+
+                        tr("You can add some by editing the script located at \"") +
+                        PATH_TO_LIGHTS_AVAILABLE +
+                        tr("\"."));
+    }
     //Insert all other element that needs to know which lights are available here
 }
 

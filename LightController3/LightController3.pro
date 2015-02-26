@@ -18,7 +18,7 @@ SOURCES += \
     Widgets/timing.cpp \
     History/localhistory.cpp \
     History/history.cpp \
-    Widgets/lightsavailable.cpp
+    lightsavailable.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -44,4 +44,4 @@ HEADERS += \
     Widgets/timing.h \
     History/localhistory.h \
     History/history.h \
-    Widgets/lightsavailable.h
+    lightsavailable.h
