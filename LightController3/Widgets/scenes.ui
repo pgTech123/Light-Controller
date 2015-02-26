@@ -19,15 +19,15 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>281</width>
+      <width>327</width>
       <height>261</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QListView" name="listViewScene"/>
      </item>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="pushButtonNew">
@@ -39,7 +39,7 @@
        <item>
         <widget class="QPushButton" name="pushButtonModify">
          <property name="text">
-          <string>Modify Scene</string>
+          <string>Save Scene</string>
          </property>
         </widget>
        </item>
@@ -47,6 +47,33 @@
         <widget class="QPushButton" name="pushButtonDelete">
          <property name="text">
           <string>Delete Scene</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="save_scenes">
+         <property name="text">
+          <string>Save Scenes</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

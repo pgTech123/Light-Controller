@@ -18,7 +18,8 @@ SOURCES += \
     Widgets/timing.cpp \
     History/localhistory.cpp \
     History/history.cpp \
-    lightsavailable.cpp
+    lightsavailable.cpp \
+    Widgets/groupediting.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -28,7 +29,8 @@ FORMS += \
     Widgets/groups.ui \
     Widgets/scenes.ui \
     Widgets/faders.ui \
-    Widgets/timing.ui
+    Widgets/timing.ui \
+    Widgets/groupediting.ui
 
 HEADERS += \
     rs232win.h \
@@ -44,4 +46,5 @@ HEADERS += \
     Widgets/timing.h \
     History/localhistory.h \
     History/history.h \
-    lightsavailable.h
+    lightsavailable.h \
+    Widgets/groupediting.h

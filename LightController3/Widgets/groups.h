@@ -4,6 +4,7 @@
 #include <QDockWidget>
 #include <QString>
 #include "dockablewindow.h"
+#include "groupediting.h"
 
 //TODO: checkbox to be able to not save groups. Warning when uncheck
 

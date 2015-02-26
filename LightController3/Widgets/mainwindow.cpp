@@ -91,8 +91,10 @@ void MainWindow::initialize()
                         PATH_TO_LIGHTS_AVAILABLE +
                         tr("\"."));
     }
-    fixturesWindow.setLightsAvailable(m_LightsAvailable);
-    //Insert all other element that needs to know which lights are available here
+    else{
+        fixturesWindow.setLightsAvailable(m_LightsAvailable);
+        //Insert all other element that needs to know which lights are available here
+    }
 }
 
 SavingStatus MainWindow::doYouWantToSaveChanges()

@@ -1,3 +1,12 @@
+/*************************************************************************
+ * Project   :      GV Light Controller 3
+ * Filename  :      fixture.h
+ * Author    :      Pascal Gendron
+ * Version   :      3.0
+ *
+ * Copyright :      GNU GENERAL PUBLIC LICENSE
+ * ************************************************************************/
+
 #ifndef FIXTURES_H
 #define FIXTURES_H
 
@@ -5,11 +14,6 @@
 #include <QListWidgetItem>
 #include "dockablewindow.h"
 #include "lightsavailable.h"
-
-//DEBUG
-#include <iostream>
-using namespace std;
-//END DEBUG
 
 namespace Ui {
 class Fixtures;
