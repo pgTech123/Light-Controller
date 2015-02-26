@@ -2,9 +2,14 @@
 #define FIXTURES_H
 
 #include <QDockWidget>
+#include <QListWidgetItem>
 #include "dockablewindow.h"
+#include "lightsavailable.h"
 
-#define FIXTURE_INFO_PATH   ./../structure.txt
+//DEBUG
+#include <iostream>
+using namespace std;
+//END DEBUG
 
 namespace Ui {
 class Fixtures;
@@ -19,12 +24,18 @@ public:
     ~Fixtures();
 
     void unselectAll();
+    void setLightsAvailable(LightsAvailable *lightsAvailable);
+
+private slots:
+    void on_listWidget_currentRowChanged(int index);
 
 private:
     void readStructureInfo();
 
 private:
     Ui::Fixtures *ui;
+
+    LightsAvailable *m_ptrLightsAvailable;
 };
 
 #endif // FIXTURES_H
