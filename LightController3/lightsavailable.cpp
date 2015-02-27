@@ -55,7 +55,10 @@ void LightsAvailable::readFile(const char* path)
         m_iFixturesAvailable = 0;
         string buf;
         while(getline(file, buf)){
-            if(buf.at(0) == '>'){
+            if(buf.empty()){
+                //Skip this line
+            }
+            else if(buf.at(0) == '>'){
                 buf.erase(0,1);
                 addFixtureName(buf);
             }

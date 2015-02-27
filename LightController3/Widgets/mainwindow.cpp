@@ -93,6 +93,7 @@ void MainWindow::initialize()
     }
     else{
         fixturesWindow.setLightsAvailable(m_LightsAvailable);
+        groupsWindows.setLightsAvailable(m_LightsAvailable);
         //Insert all other element that needs to know which lights are available here
     }
 }

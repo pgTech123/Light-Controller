@@ -19,7 +19,8 @@ SOURCES += \
     History/localhistory.cpp \
     History/history.cpp \
     lightsavailable.cpp \
-    Widgets/groupediting.cpp
+    Widgets/groupediting.cpp \
+    History/grouphistory.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -47,4 +48,5 @@ HEADERS += \
     History/localhistory.h \
     History/history.h \
     lightsavailable.h \
-    Widgets/groupediting.h
+    Widgets/groupediting.h \
+    History/grouphistory.h
