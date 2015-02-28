@@ -55,6 +55,8 @@ private slots:
     void newGroup(GroupContent group);
     void modifiedGroup(GroupContent group);
 
+    void itemDoubleClicked(QListWidgetItem*);
+
 private:
     Ui::Groups *ui;
 

@@ -19,6 +19,7 @@ Groups::Groups(QWidget *parent) :
 
     connect(&m_groupEditing, SIGNAL(newGroup(GroupContent)), this, SLOT(newGroup(GroupContent)));
     connect(&m_groupEditing, SIGNAL(modifiedGroup(GroupContent)), this, SLOT(modifiedGroup(GroupContent)));
+    connect(ui->listWidgetGroups, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(itemDoubleClicked(QListWidgetItem*)));
 }
 
 Groups::~Groups()
@@ -125,4 +126,9 @@ void Groups::modifiedGroup(GroupContent group)
     int itemSelected = ui->listWidgetGroups->currentRow();
     m_groupsContent[itemSelected] = group;
     ui->listWidgetGroups->item(itemSelected)->setText(group.groupName);
+}
+
+void Groups::itemDoubleClicked(QListWidgetItem*)
+{
+    on_pushButtonModify_clicked();
 }

@@ -13,6 +13,7 @@
 #include <QDialog>
 #include <QList>
 #include <QString>
+#include <QCheckBox>
 #include "lightsavailable.h"
 
 //DEBUG
@@ -50,6 +51,9 @@ public:
 
     void setLightsAvailable(LightsAvailable *lightsAvailable);
 
+private:
+    void uncheckAll();
+
 private slots:
     void accept();
 
@@ -60,6 +64,8 @@ signals:
 private:
     Ui::GroupEditing *ui;
     LightsAvailable *m_ptrLightsAvailable;
+
+    QCheckBox *m_CheckBoxArray;
 
     EditingStatus m_editingStatus;
     GroupContent m_currentGroup;
