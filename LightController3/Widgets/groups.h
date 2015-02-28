@@ -19,6 +19,7 @@
 #include "dockablewindow.h"
 #include "groupediting.h"
 #include "lightsavailable.h"
+#include "faders.h"
 
 using namespace std;
 
@@ -41,6 +42,7 @@ public:
     void reset();
 
     void setLightsAvailable(LightsAvailable *lightsAvailable);
+    void setFaders(Faders *faders);
 
 private:
     void setFocusOnEditingGroup();
@@ -52,16 +54,20 @@ private slots:
 
     void on_save_groups_clicked();
 
+    void on_listWidgetGroups_itemClicked(QListWidgetItem* item);
+
     void newGroup(GroupContent group);
     void modifiedGroup(GroupContent group);
 
     void itemDoubleClicked(QListWidgetItem*);
+    void unselectAll(FixtureSelector);
 
 private:
     Ui::Groups *ui;
 
     QString m_pathToGroup;
 
+    Faders *m_ptrFaders;
     GroupEditing m_groupEditing;
     vector<GroupContent> m_groupsContent;
 };

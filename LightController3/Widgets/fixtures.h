@@ -14,6 +14,7 @@
 #include <QListWidgetItem>
 #include "dockablewindow.h"
 #include "lightsavailable.h"
+#include "faders.h"
 
 namespace Ui {
 class Fixtures;
@@ -27,11 +28,12 @@ public:
     explicit Fixtures(QWidget *parent = 0);
     ~Fixtures();
 
-    void unselectAll();
     void setLightsAvailable(LightsAvailable *lightsAvailable);
+    void setFaders(Faders *faders);
 
 private slots:
-    void on_listWidget_currentRowChanged(int index);
+    void on_listWidget_itemClicked(QListWidgetItem *item);
+    void unselectAll(FixtureSelector);
 
 private:
     void readStructureInfo();
@@ -39,6 +41,7 @@ private:
 private:
     Ui::Fixtures *ui;
 
+    Faders *m_ptrFaders;
     LightsAvailable *m_ptrLightsAvailable;
 };
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SingleFader</class>
+ <widget class="QWidget" name="SingleFader">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>136</width>
+    <height>376</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>131</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="labelFixtureName">
+      <property name="text">
+       <string>Fader name</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelValue">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSlider" name="verticalSlider">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>verticalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>labelValue</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>15</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>65</x>
+     <y>42</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

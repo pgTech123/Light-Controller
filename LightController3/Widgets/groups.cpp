@@ -17,9 +17,13 @@ Groups::Groups(QWidget *parent) :
     ui->setupUi(this);
     ui->dockWidgetContents->setLayout(ui->gridLayout);
 
+    m_ptrFaders = NULL;
+
     connect(&m_groupEditing, SIGNAL(newGroup(GroupContent)), this, SLOT(newGroup(GroupContent)));
     connect(&m_groupEditing, SIGNAL(modifiedGroup(GroupContent)), this, SLOT(modifiedGroup(GroupContent)));
     connect(ui->listWidgetGroups, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(itemDoubleClicked(QListWidgetItem*)));
+    connect(ui->listWidgetGroups,SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
+            this, SLOT(on_listWidgetGroups_itemClicked(QListWidgetItem*)));
 }
 
 Groups::~Groups()
@@ -57,6 +61,12 @@ void Groups::reset()
 
 void Groups::setLightsAvailable(LightsAvailable *lightsAvailable){
     m_groupEditing.setLightsAvailable(lightsAvailable);
+}
+
+void Groups::setFaders(Faders *faders)
+{
+    m_ptrFaders = faders;
+    connect(m_ptrFaders, SIGNAL(unselect(FixtureSelector)), this, SLOT(unselectAll(FixtureSelector)));
 }
 
 void Groups::setFocusOnEditingGroup()
@@ -114,6 +124,15 @@ void Groups::on_save_groups_clicked()
     }
 }
 
+void Groups::on_listWidgetGroups_itemClicked(QListWidgetItem *item)
+{
+    int row = ui->listWidgetGroups->row(item);
+    if(row >= 0 && row < m_groupsContent.size()){
+        m_ptrFaders->accessFixtures(m_groupsContent[row].indexFixtures,
+                                    m_groupsContent[row].groupName);
+    }
+}
+
 void Groups::newGroup(GroupContent group)
 {
     m_groupsContent.push_back(group);
@@ -131,4 +150,11 @@ void Groups::modifiedGroup(GroupContent group)
 void Groups::itemDoubleClicked(QListWidgetItem*)
 {
     on_pushButtonModify_clicked();
+}
+
+void Groups::unselectAll(FixtureSelector sel)
+{
+    if(sel == GROUP){
+        ui->listWidgetGroups->clearSelection();
+    }
 }

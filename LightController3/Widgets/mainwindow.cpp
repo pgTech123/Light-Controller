@@ -94,8 +94,13 @@ void MainWindow::initialize()
     else{
         fixturesWindow.setLightsAvailable(m_LightsAvailable);
         groupsWindows.setLightsAvailable(m_LightsAvailable);
+        fadersWindows.setLightsAvailable(m_LightsAvailable);
         //Insert all other element that needs to know which lights are available here
     }
+
+    // Set access to faders
+    fixturesWindow.setFaders(&fadersWindows);
+    groupsWindows.setFaders(&fadersWindows);
 }
 
 SavingStatus MainWindow::doYouWantToSaveChanges()

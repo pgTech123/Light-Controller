@@ -17,6 +17,10 @@ Fixtures::Fixtures(QWidget *parent) :
     ui->setupUi(this);
 
     ui->dockWidgetContents->setLayout(ui->verticalLayout);
+    m_ptrFaders = NULL;
+
+    connect(ui->listWidget,SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
+            this, SLOT(on_listWidget_itemClicked(QListWidgetItem*)));
 }
 
 Fixtures::~Fixtures()
@@ -24,9 +28,11 @@ Fixtures::~Fixtures()
     delete ui;
 }
 
-void Fixtures::unselectAll()
+void Fixtures::unselectAll(FixtureSelector sel)
 {
-    ui->listWidget->clearSelection();
+    if(sel == FIXTURE){
+        ui->listWidget->clearSelection();
+    }
 }
 
 void Fixtures::setLightsAvailable(LightsAvailable *lightsAvailable)
@@ -40,7 +46,17 @@ void Fixtures::setLightsAvailable(LightsAvailable *lightsAvailable)
     }
 }
 
-void Fixtures::on_listWidget_currentRowChanged(int index)
+void Fixtures::setFaders(Faders *faders)
 {
-    //TODO: set faders
+    m_ptrFaders = faders;
+    connect(m_ptrFaders, SIGNAL(unselect(FixtureSelector)),
+            this, SLOT(unselectAll(FixtureSelector)));
+}
+
+void Fixtures::on_listWidget_itemClicked(QListWidgetItem *item)
+{
+    int row = ui->listWidget->row(item);
+    if(m_ptrFaders != NULL){
+        m_ptrFaders->accessFixture(row);
+    }
 }

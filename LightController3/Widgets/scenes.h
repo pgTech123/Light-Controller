@@ -3,7 +3,13 @@
 
 #include <QDockWidget>
 #include <QString>
+#include <QMessageBox>
 #include "dockablewindow.h"
+
+typedef struct{
+    QString sceneName;
+    //TODO: scene
+}Scene;
 
 namespace Ui {
 class Scenes;
@@ -21,6 +27,13 @@ public:
     bool saveScenes(bool saveAs = false);
     QString getPath();
     void reset();
+
+private slots:
+    void on_pushButtonNew_clicked();
+    void on_pushButtonModify_clicked();
+    void on_pushButtonDelete_clicked();
+
+    void on_save_scenes_clicked();
 
 private:
     Ui::Scenes *ui;

@@ -13,7 +13,44 @@
   <property name="windowTitle">
    <string>Faders</string>
   </property>
-  <widget class="QWidget" name="dockWidgetContents"/>
+  <widget class="QWidget" name="dockWidgetContents">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>511</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="labelFixtureName">
+       <property name="text">
+        <string>Fixture Name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

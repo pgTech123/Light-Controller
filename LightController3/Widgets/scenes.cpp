@@ -33,3 +33,31 @@ void Scenes::reset()
 {
 
 }
+
+void Scenes::on_pushButtonNew_clicked()
+{
+
+}
+
+void Scenes::on_pushButtonModify_clicked()
+{
+
+}
+
+void Scenes::on_pushButtonDelete_clicked()
+{
+
+}
+
+void Scenes::on_save_scenes_clicked()
+{
+    if(!ui->save_scenes->isChecked()){
+        int answer = QMessageBox::warning(this, "Warning",
+                        tr("Are you sure you don't want to save the scenes for this project?"),
+                             QMessageBox::Yes | QMessageBox::No,
+                             QMessageBox::No);
+        if(answer != QMessageBox::Yes){
+            ui->save_scenes->setChecked(true);
+        }
+    }
+}
