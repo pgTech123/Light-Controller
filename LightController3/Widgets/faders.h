@@ -57,6 +57,11 @@ public slots:
 
 private:
     void deleteFaders();
+    bool listContains(QList<QString> strList, QString str);
+    QList<QString> groupFadersByName(QList<int> fixtures);
+
+    FixturesToCall generateFixtures2Call(QList<int> fixtures, QString faderName);
+    int getFirstValueForFader(QList<int> fixtures, QString faderName);
 
 signals:
     void unselect(FixtureSelector);

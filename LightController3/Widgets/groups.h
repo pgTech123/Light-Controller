@@ -60,7 +60,7 @@ private slots:
     void modifiedGroup(GroupContent group);
 
     void itemDoubleClicked(QListWidgetItem*);
-    void unselectAll(FixtureSelector);
+    void unselectAll(FixtureSelector sel = GROUP);
 
 private:
     Ui::Groups *ui;

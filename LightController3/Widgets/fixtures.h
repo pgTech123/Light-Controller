@@ -33,7 +33,7 @@ public:
 
 private slots:
     void on_listWidget_itemClicked(QListWidgetItem *item);
-    void unselectAll(FixtureSelector);
+    void unselectAll(FixtureSelector sel = FIXTURE);
 
 private:
     void readStructureInfo();

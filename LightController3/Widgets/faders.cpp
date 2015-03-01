@@ -71,18 +71,26 @@ void Faders::accessFixtures(QList<int> fixtures, QString name)
 {
     deleteFaders();
     ui->labelFixtureName->setText(name);
+    QList<QString> faderNameList = groupFadersByName(fixtures);
 
-    QList<QString> faderNameList;
-    for(int iFx = 0; iFx < fixtures.size(); iFx++)
-    {
-        for(int fader = 0;
-            fader < m_ptrLightsAvailable->getNumOfFadersForFixture(fixtures.at(iFx));
-            fader++)
-        {
-            //TODO: if faderNameList !contains name, append it
-        }
+    // Create faders from names
+    int numOfFaders = faderNameList.size();
+    m_SingleFaderArr = new SingleFader[numOfFaders];
+
+    for(int i = 0; i < numOfFaders; i++){
+        m_SingleFaderArr[i].setName(faderNameList.at(i));
+
+        FixturesToCall fixt2Call = generateFixtures2Call(fixtures, faderNameList.at(i));
+
+        m_SingleFaderArr[i].setValue(getFirstValueForFader(fixtures, faderNameList.at(i)));
+        m_SingleFaderArr[i].setFixturesAndFaders(fixt2Call);
+        connect(&m_SingleFaderArr[i], SIGNAL(valueChanged(int,int,int)),
+                this, SLOT(setFaderFromSlider(int,int,int)));
+        connect(this, SIGNAL(valueChanged(int,int,int)),
+                &m_SingleFaderArr[i], SLOT(setValue(int,int,int)));
+
+        ui->horizontalLayout->addWidget(&m_SingleFaderArr[i]);
     }
-    //TODO: Create faders from names
     emit unselect(FIXTURE);
 }
 
@@ -119,4 +127,82 @@ void Faders::deleteFaders()
         delete[] m_SingleFaderArr;
         m_SingleFaderArr = NULL;
     }
+}
+
+bool Faders::listContains(QList<QString> strList, QString str)
+{
+    for(int i = 0; i < strList.size(); i++){
+        if(strList.at(i) == str){
+            return true;
+        }
+    }
+    return false;
+}
+
+QList<QString> Faders::groupFadersByName(QList<int> fixtures)
+{
+    QList<QString> faderNameList;
+    for(int iFx = 0; iFx < fixtures.size(); iFx++)
+    {
+        if(fixtures.at(iFx) < m_ptrLightsAvailable->getNumOfFixturesAvailable())
+        {
+            for(int iFad = 0;
+                iFad < m_ptrLightsAvailable->getNumOfFadersForFixture(fixtures.at(iFx));
+                iFad++)
+            {
+                QString faderName = m_ptrLightsAvailable->getFaderName(fixtures.at(iFx), iFad);
+                if(!listContains(faderNameList, faderName)){
+                    faderNameList.append(faderName);
+                }
+            }
+        }
+    }
+    return faderNameList;
+}
+
+FixturesToCall Faders::generateFixtures2Call(QList<int> fixtures, QString faderName)
+{
+    FixturesToCall fixt2Call;
+    bool append = false;
+
+    for(int iFx = 0; iFx < fixtures.size(); iFx++)
+    {
+        int fixtureID = fixtures.at(iFx);
+        FadersToCall fad2Call;
+        append = false;
+
+        for(int iFad = 0;
+            iFad < m_ptrLightsAvailable->getNumOfFadersForFixture(fixtureID);
+            iFad++)
+        {
+            if(m_ptrLightsAvailable->getFaderName(fixtureID, iFad) == faderName){
+                fad2Call.fixture = fixtureID;
+                fad2Call.faders.append(iFad);
+                append = true;
+            }
+        }
+
+        if(append){
+            fixt2Call.fixtures.append(fad2Call);
+        }
+    }
+
+    return fixt2Call;
+}
+
+int Faders::getFirstValueForFader(QList<int> fixtures, QString faderName)
+{
+    for(int iFx = 0; iFx < fixtures.size(); iFx++)
+    {
+        int fixtureID = fixtures.at(iFx);
+        for(int iFad = 0;
+            iFad < m_ptrLightsAvailable->getNumOfFadersForFixture(fixtureID);
+            iFad++)
+        {
+            if(m_ptrLightsAvailable->getFaderName(fixtureID, iFad) == faderName){
+                return m_LightsStatus.fixtureStatus[fixtureID].faderValue[iFad];
+            }
+        }
+    }
+    return 0;
 }

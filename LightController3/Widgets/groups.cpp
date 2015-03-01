@@ -138,6 +138,10 @@ void Groups::newGroup(GroupContent group)
     m_groupsContent.push_back(group);
     QListWidgetItem *item= new QListWidgetItem(group.groupName);
     ui->listWidgetGroups->addItem(item);
+
+    //Select it
+    item->setSelected(true);
+    on_listWidgetGroups_itemClicked(item);
 }
 
 void Groups::modifiedGroup(GroupContent group)
