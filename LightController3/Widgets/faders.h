@@ -49,14 +49,18 @@ public:
     void accessFixture(int fixture);
     void accessFixtures(QList<int> fixture, QString name="Group");
 
-    void setFader(int fixture, int fader, int value);
     int getFader(int fixture, int fader);
+
+public slots:
+    void setFader(int fixture, int fader, int value);
+    void setFaderFromSlider(int fixture, int fader, int value);
 
 private:
     void deleteFaders();
 
 signals:
     void unselect(FixtureSelector);
+    void valueChanged(int, int, int);
 
 private:
     Ui::Faders *ui;
