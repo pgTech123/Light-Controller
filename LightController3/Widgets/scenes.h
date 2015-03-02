@@ -1,14 +1,21 @@
 #ifndef SCENES_H
 #define SCENES_H
 
+#include <vector>
 #include <QDockWidget>
 #include <QString>
 #include <QMessageBox>
+#include <QListWidgetItem>
+#include <QDesktopWidget>
 #include "dockablewindow.h"
+#include "sceneediting.h"
+#include "faders.h"
+
+using namespace std;
 
 typedef struct{
-    QString sceneName;
-    //TODO: scene
+    SceneProperty sceneProperties;
+    LightsStatus lightStatus;
 }Scene;
 
 namespace Ui {
@@ -28,15 +35,35 @@ public:
     QString getPath();
     void reset();
 
+    void setFaders(Faders *faders);
+
+    void setFocusOnEditingGroup();
+
 private slots:
     void on_pushButtonNew_clicked();
-    void on_pushButtonModify_clicked();
+    void on_pushButtonSave_clicked();
     void on_pushButtonDelete_clicked();
+
+    void on_pushButtonApply_clicked();
 
     void on_save_scenes_clicked();
 
+    void on_listWidgetScenes_itemClicked(QListWidgetItem* item);
+
+    void itemDoubleClicked(QListWidgetItem* item);
+
+    void newScene(SceneProperty sceneProp);
+    void modifiedScene(SceneProperty sceneProp);
+
 private:
     Ui::Scenes *ui;
+
+    Faders *m_ptrFaders;
+
+    int m_iCurrentScene;
+
+    SceneEditing m_SceneEditingWindow;
+    vector<Scene> m_SceneVec;
 };
 
 #endif // SCENES_H

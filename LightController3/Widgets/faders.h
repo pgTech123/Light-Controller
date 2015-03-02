@@ -51,6 +51,8 @@ public:
 
     int getFader(int fixture, int fader);
 
+    LightsStatus getLightsStatus();
+
 public slots:
     void setFader(int fixture, int fader, int value);
     void setFaderFromSlider(int fixture, int fader, int value);

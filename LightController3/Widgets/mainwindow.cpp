@@ -101,6 +101,8 @@ void MainWindow::initialize()
     // Set access to faders
     fixturesWindow.setFaders(&fadersWindows);
     groupsWindows.setFaders(&fadersWindows);
+    scenesWindows.setFaders(&fadersWindows);
+    //Insert all other element that needs to have access to faders here
 }
 
 SavingStatus MainWindow::doYouWantToSaveChanges()

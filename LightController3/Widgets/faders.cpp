@@ -121,6 +121,11 @@ int Faders::getFader(int fixture, int fader)
     return 0;
 }
 
+LightsStatus Faders::getLightsStatus()
+{
+    return m_LightsStatus;
+}
+
 void Faders::deleteFaders()
 {
     if(m_SingleFaderArr != NULL){

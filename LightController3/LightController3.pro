@@ -21,7 +21,8 @@ SOURCES += \
     lightsavailable.cpp \
     Widgets/groupediting.cpp \
     History/grouphistory.cpp \
-    Widgets/singlefader.cpp
+    Widgets/singlefader.cpp \
+    Widgets/sceneediting.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -33,7 +34,8 @@ FORMS += \
     Widgets/faders.ui \
     Widgets/timing.ui \
     Widgets/groupediting.ui \
-    Widgets/singlefader.ui
+    Widgets/singlefader.ui \
+    Widgets/sceneediting.ui
 
 HEADERS += \
     rs232win.h \
@@ -52,4 +54,5 @@ HEADERS += \
     lightsavailable.h \
     Widgets/groupediting.h \
     History/grouphistory.h \
-    Widgets/singlefader.h
+    Widgets/singlefader.h \
+    Widgets/sceneediting.h

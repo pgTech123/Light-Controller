@@ -99,7 +99,7 @@ void Groups::on_pushButtonModify_clicked()
 void Groups::on_pushButtonDelete_clicked()
 {
     int itemSelected = ui->listWidgetGroups->currentRow();
-    if(itemSelected >= 0){
+    if(itemSelected >= 0 && itemSelected < m_groupsContent.size()){
         int answer = QMessageBox::warning(this, "Warning",
                         tr("Are you sure you want to remove this group?"),
                              QMessageBox::Yes | QMessageBox::No,

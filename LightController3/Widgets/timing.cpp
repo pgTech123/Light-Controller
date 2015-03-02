@@ -6,6 +6,7 @@ Timing::Timing(QWidget *parent) :
     ui(new Ui::Timing)
 {
     ui->setupUi(this);
+    ui->dockWidgetContents->setLayout(ui->verticalLayout);
 }
 
 Timing::~Timing()
