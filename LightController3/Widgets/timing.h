@@ -3,7 +3,11 @@
 
 #include <QDockWidget>
 #include <QString>
+#include <QList>
 #include "dockablewindow.h"
+#include "lightsavailable.h"
+#include "faders.h"
+#include "timing/fixturemaintimingui.h"
 
 namespace Ui {
 class Timing;
@@ -26,8 +30,16 @@ public:
 
     void reset();
 
+    void setLightsAvailable(LightsAvailable *lightsAvailable);
+    void setFaders(Faders *faders);
+
 private:
     Ui::Timing *ui;
+
+    LightsAvailable *m_ptrLightsAvailable;
+    Faders *m_ptrFaders;
+
+    FixtureMainTimingUI *m_FixtureMainTimingArr;
 };
 
 #endif // TIMING_H

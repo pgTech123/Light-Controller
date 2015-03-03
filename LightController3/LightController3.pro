@@ -22,7 +22,9 @@ SOURCES += \
     Widgets/groupediting.cpp \
     History/grouphistory.cpp \
     Widgets/singlefader.cpp \
-    Widgets/sceneediting.cpp
+    Widgets/sceneediting.cpp \
+    Widgets/timing/cuecursor.cpp \
+    Widgets/timing/fixturemaintimingui.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -35,7 +37,8 @@ FORMS += \
     Widgets/timing.ui \
     Widgets/groupediting.ui \
     Widgets/singlefader.ui \
-    Widgets/sceneediting.ui
+    Widgets/sceneediting.ui \
+    Widgets/timing/fixturemaintimingui.ui
 
 HEADERS += \
     rs232win.h \
@@ -55,4 +58,6 @@ HEADERS += \
     Widgets/groupediting.h \
     History/grouphistory.h \
     Widgets/singlefader.h \
-    Widgets/sceneediting.h
+    Widgets/sceneediting.h \
+    Widgets/timing/cuecursor.h \
+    Widgets/timing/fixturemaintimingui.h
