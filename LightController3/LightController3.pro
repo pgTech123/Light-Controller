@@ -1,5 +1,6 @@
-#INCLUDEPATH += "C:\\Program Files (x86)\\FMOD SoundSystem\\FMOD Programmers API Win32\\api\\inc"
-#LIBS += -lfmodex
+#FMOD
+INCLUDEPATH += "./../External Dependency/fmod/inc"
+LIBS += "-L./../External Dependency/fmod/lib/x86_64/" -lfmod
 
 QT+=widgets
 

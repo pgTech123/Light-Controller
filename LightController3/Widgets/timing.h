@@ -4,10 +4,19 @@
 #include <QDockWidget>
 #include <QString>
 #include <QList>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QString>
+#include <QDesktopWidget>
+#include <fmod.hpp>
+#include <fmod_common.h>
 #include "dockablewindow.h"
 #include "lightsavailable.h"
 #include "faders.h"
 #include "timing/fixturemaintimingui.h"
+
+#include <iostream>
+using namespace std;
 
 namespace Ui {
 class Timing;
@@ -34,12 +43,28 @@ public:
     void setFaders(Faders *faders);
 
 private:
+    void initializeFMOD();
+    void releaseFMOD();
+    void loadSong(QString songPath);
+
+private slots:
+    void on_pushButtonPlay_clicked();
+
+private:
     Ui::Timing *ui;
 
     LightsAvailable *m_ptrLightsAvailable;
     Faders *m_ptrFaders;
 
     FixtureMainTimingUI *m_FixtureMainTimingArr;
+
+    //Sound System (powered by FMOD)
+    bool m_bIsPlaying;
+    unsigned int m_uiCursor_ms;
+    unsigned int m_uiSongLenght_ms;
+    FMOD::System *m_fmodSystem;
+    FMOD::Sound *m_fmodMusic;
+    FMOD::Channel *m_fmodChannel;
 };
 
 #endif // TIMING_H

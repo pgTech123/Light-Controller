@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>543</width>
+      <width>551</width>
       <height>271</height>
      </rect>
     </property>
@@ -75,7 +75,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>539</width>
+          <width>547</width>
           <height>172</height>
          </rect>
         </property>
@@ -128,7 +128,7 @@
        <item>
         <widget class="QPushButton" name="pushButtonPlay">
          <property name="text">
-          <string>Play</string>
+          <string>import song</string>
          </property>
         </widget>
        </item>
