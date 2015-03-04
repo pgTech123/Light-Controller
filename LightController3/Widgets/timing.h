@@ -1,3 +1,5 @@
+//DEPENDENCY:   FMOD Sound System, copyright © Firelight Technologies Pty, Ltd.
+
 #ifndef TIMING_H
 #define TIMING_H
 
