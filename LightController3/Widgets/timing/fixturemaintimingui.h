@@ -5,6 +5,7 @@
 #include <QString>
 #include <QList>
 #include <QMenu>
+#include "../faders.h"
 
 namespace Ui {
 class FixtureMainTimingUI;
@@ -20,6 +21,8 @@ public:
 
     void setFixtureName(QString name);
     void addFaderNames(QList<QString> name);
+    void setFixtureID(int fixtureID);
+    void setFaders(Faders *faders);
 
 private:
     Ui::FixtureMainTimingUI *ui;

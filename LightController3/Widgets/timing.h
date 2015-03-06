@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QDesktopWidget>
+#include <QTimer>
 #include <fmod.hpp>
 #include <fmod_common.h>
 #include "dockablewindow.h"
@@ -19,6 +20,8 @@
 
 #include <iostream>
 using namespace std;
+
+#define TIME_RESOLUTION     10  //ms
 
 namespace Ui {
 class Timing;
@@ -44,13 +47,31 @@ public:
     void setLightsAvailable(LightsAvailable *lightsAvailable);
     void setFaders(Faders *faders);
 
+    unsigned int getSongTotalLenght();
+    unsigned int getSongCurrentTime();
+    void setSongCurrentTime(unsigned int time_ms);
+
 private:
     void initializeFMOD();
     void releaseFMOD();
     void loadSong(QString songPath);
 
+    void setTimeUI();
+
 private slots:
+    void on_pushButtonSoundtrack_clicked();
+    void on_pushButtonAddCue_clicked();
+    void on_pushButtonSharpTransition_clicked();
+    void on_pushButtonDeleteCue_clicked();
+
     void on_pushButtonPlay_clicked();
+    void on_pushButtonRestart_clicked();
+    void on_pushButtonPreviousCue_clicked();
+    void on_pushButtonNextCue_clicked();
+    void on_pushButtonGoToEnd_clicked();
+
+    //Callback
+    void update();
 
 private:
     Ui::Timing *ui;
@@ -59,6 +80,9 @@ private:
     Faders *m_ptrFaders;
 
     FixtureMainTimingUI *m_FixtureMainTimingArr;
+
+    //Callback timer
+    QTimer *m_CallbackTimer;
 
     //Sound System (powered by FMOD)
     bool m_bIsPlaying;

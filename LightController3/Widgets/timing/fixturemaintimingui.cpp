@@ -36,3 +36,13 @@ void FixtureMainTimingUI::addFaderNames(QList<QString> names)
     }
     ui->toolButtonFaders->setMenu(m_btnMenu);
 }
+
+void FixtureMainTimingUI::setFixtureID(int fixtureID)
+{
+
+}
+
+void FixtureMainTimingUI::setFaders(Faders *faders)
+{
+
+}
