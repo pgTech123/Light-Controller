@@ -83,6 +83,10 @@ void Timing::setLightsAvailable(LightsAvailable *lightsAvailable)
         }
         m_FixtureMainTimingArr[i].addFaderNames(faderNameList);
 
+        connect(this, SIGNAL(addCue()), &m_FixtureMainTimingArr[i], SLOT(addCue()));
+        connect(this, SIGNAL(toggleSharp_Smooth()), &m_FixtureMainTimingArr[i], SLOT(toggleSharp_Smooth()));
+        connect(this, SIGNAL(deleteCue()), &m_FixtureMainTimingArr[i], SLOT(deleteCue()));
+
         //Add to UI
         ui->verticalLayoutScrollArea->addWidget(&m_FixtureMainTimingArr[i]);
     }
@@ -113,6 +117,7 @@ unsigned int Timing::getSongCurrentTime()
 void Timing::setSongCurrentTime(unsigned int time_ms)
 {
     m_fmodChannel->setPosition(time_ms, FMOD_TIMEUNIT_MS);
+    m_uiCursor_ms = time_ms;
     setTimeUI();
 }
 
@@ -161,22 +166,22 @@ void Timing::setTimeUI()
 
 void Timing::on_pushButtonSoundtrack_clicked()
 {
-
+    //TODO: Open a window showing soundtrack statistics
 }
 
 void Timing::on_pushButtonAddCue_clicked()
 {
-
+    emit addCue();
 }
 
 void Timing::on_pushButtonSharpTransition_clicked()
 {
-
+    emit toggleSharp_Smooth();
 }
 
 void Timing::on_pushButtonDeleteCue_clicked()
 {
-
+    emit deleteCue();
 }
 
 void Timing::on_pushButtonPlay_clicked()
@@ -219,27 +224,31 @@ void Timing::on_pushButtonPlay_clicked()
 
 void Timing::on_pushButtonRestart_clicked()
 {
-
+    setSongCurrentTime(0);
 }
 
 void Timing::on_pushButtonPreviousCue_clicked()
 {
-
+    //TODO
 }
 
 void Timing::on_pushButtonNextCue_clicked()
 {
-
+    //TODO
 }
 
 void Timing::on_pushButtonGoToEnd_clicked()
 {
-
+    setSongCurrentTime(m_uiSongLenght_ms-1);
 }
 
 void Timing::update()
 {
     getSongCurrentTime();   //Update private member m_uiCursor_ms
+
+    if(m_uiCursor_ms == m_uiSongLenght_ms){
+        on_pushButtonPlay_clicked();
+    }
 
     //Call Child
     int fixtAvailable = m_ptrLightsAvailable->getNumOfFixturesAvailable();

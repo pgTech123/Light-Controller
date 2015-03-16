@@ -46,3 +46,18 @@ void FixtureMainTimingUI::setFaders(Faders *faders)
 {
 
 }
+
+void FixtureMainTimingUI::addCue()
+{
+
+}
+
+void FixtureMainTimingUI::toggleSharp_Smooth()
+{
+
+}
+
+void FixtureMainTimingUI::deleteCue()
+{
+
+}

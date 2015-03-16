@@ -51,6 +51,11 @@ public:
     unsigned int getSongCurrentTime();
     void setSongCurrentTime(unsigned int time_ms);
 
+signals:
+    void addCue();
+    void toggleSharp_Smooth();
+    void deleteCue();
+
 private:
     void initializeFMOD();
     void releaseFMOD();

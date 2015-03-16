@@ -49,7 +49,7 @@
        <item>
         <widget class="QPushButton" name="pushButtonSharpTransition">
          <property name="text">
-          <string>Sharp Transition</string>
+          <string>Sharp/Smoot Transition</string>
          </property>
          <property name="shortcut">
           <string>S</string>

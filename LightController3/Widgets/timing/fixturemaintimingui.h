@@ -24,6 +24,14 @@ public:
     void setFixtureID(int fixtureID);
     void setFaders(Faders *faders);
 
+public slots:
+    void addCue();
+    void toggleSharp_Smooth();
+    void deleteCue();
+
+private slots:
+
+
 private:
     Ui::FixtureMainTimingUI *ui;
     QMenu *m_btnMenu;
