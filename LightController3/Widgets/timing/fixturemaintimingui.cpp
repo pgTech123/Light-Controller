@@ -47,6 +47,19 @@ void FixtureMainTimingUI::setFaders(Faders *faders)
 
 }
 
+void FixtureMainTimingUI::setSongLength(unsigned int length)
+{
+
+}
+
+void FixtureMainTimingUI::setZoomBoundary(unsigned int min, unsigned int max)
+{
+    m_uiViewMinTime = min;
+    m_uiViewMaxTime = max;
+
+    //TODO: apply
+}
+
 void FixtureMainTimingUI::addCue()
 {
 
@@ -58,6 +71,11 @@ void FixtureMainTimingUI::toggleSharp_Smooth()
 }
 
 void FixtureMainTimingUI::deleteCue()
+{
+
+}
+
+void FixtureMainTimingUI::setSongCursor(unsigned int cursor)
 {
 
 }

@@ -87,6 +87,9 @@ void Timing::setLightsAvailable(LightsAvailable *lightsAvailable)
         connect(this, SIGNAL(toggleSharp_Smooth()), &m_FixtureMainTimingArr[i], SLOT(toggleSharp_Smooth()));
         connect(this, SIGNAL(deleteCue()), &m_FixtureMainTimingArr[i], SLOT(deleteCue()));
 
+        connect(&m_FixtureMainTimingArr[i], SIGNAL(zoomIn()), this, SLOT(zoomIn()));
+        connect(&m_FixtureMainTimingArr[i], SIGNAL(zoomOut()), this, SLOT(zoomOut()));
+
         //Add to UI
         ui->verticalLayoutScrollArea->addWidget(&m_FixtureMainTimingArr[i]);
     }
@@ -156,12 +159,44 @@ void Timing::loadSong(QString songPath)
 
     m_fmodMusic->getLength(&m_uiSongLenght_ms, FMOD_TIMEUNIT_MS);
     m_fmodSystem->getChannel(1, &m_fmodChannel);
+
+    //Set UI for this song
+    for(int i = 0; i < m_ptrLightsAvailable->getNumOfFixturesAvailable(); i++){
+        m_FixtureMainTimingArr[i].setSongLength(m_uiSongLenght_ms);
+    }
+    m_iZoom = MAX_ZOOM_OUT_FROM_DEFAULT;
+    applyZoom();
 }
 
 void Timing::setTimeUI()
 {
     int seconds = int(m_uiCursor_ms) / int(1000);
     ui->lcdNumber->display(seconds);
+}
+
+void Timing::applyZoom()
+{
+    //TODO: Compute Boundaries
+    //unsigned int songBigDiv = m_uiSongLenght_ms/m_iZoom
+
+    for(int i = 0; i < m_ptrLightsAvailable->getNumOfFixturesAvailable(); i++){
+        //m_FixtureMainTimingArr[i]. TODO
+    }
+}
+
+void Timing::zoomIn()
+{
+    //TODO: limit zoom
+    m_iZoom ++;
+    applyZoom();
+}
+
+void Timing::zoomOut()
+{
+    if(m_iZoom > 1 ){
+        m_iZoom --;
+        applyZoom();
+    }
 }
 
 void Timing::on_pushButtonSoundtrack_clicked()

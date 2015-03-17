@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
+    <width>626</width>
     <height>376</height>
    </rect>
   </property>
@@ -119,6 +119,9 @@
        </item>
        <item>
         <widget class="QScrollBar" name="horizontalScrollBar">
+         <property name="maximum">
+          <number>0</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

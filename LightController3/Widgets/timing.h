@@ -21,7 +21,9 @@
 #include <iostream>
 using namespace std;
 
-#define TIME_RESOLUTION     10  //ms
+#define TIME_RESOLUTION             10      //ms
+#define DEFAULT_VIEWABLE_TIME       10000   //ms
+#define MAX_ZOOM_OUT_FROM_DEFAULT   5       //times
 
 namespace Ui {
 class Timing;
@@ -62,8 +64,12 @@ private:
     void loadSong(QString songPath);
 
     void setTimeUI();
+    void applyZoom();
 
 private slots:
+    void zoomIn();
+    void zoomOut();
+
     void on_pushButtonSoundtrack_clicked();
     void on_pushButtonAddCue_clicked();
     void on_pushButtonSharpTransition_clicked();
@@ -96,6 +102,9 @@ private:
     FMOD::System *m_fmodSystem;
     FMOD::Sound *m_fmodMusic;
     FMOD::Channel *m_fmodChannel;
+
+    //UI
+    int m_iZoom;
 };
 
 #endif // TIMING_H
