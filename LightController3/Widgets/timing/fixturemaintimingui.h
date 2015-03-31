@@ -5,7 +5,11 @@
 #include <QString>
 #include <QList>
 #include <QMenu>
+#include <QGraphicsScene>
 #include "../faders.h"
+
+#include <iostream>
+using namespace std;
 
 namespace Ui {
 class FixtureMainTimingUI;
@@ -34,6 +38,7 @@ public slots:
     void setSongCursor(unsigned int cursor);
 
 private slots:
+    void updateUI();
 
 signals:
     void zoomIn();
@@ -42,10 +47,13 @@ signals:
 private:
     Ui::FixtureMainTimingUI *ui;
     QMenu *m_btnMenu;
+    QGraphicsScene *m_GraphScene;
 
     //Viewport
     unsigned int m_uiViewMinTime;
     unsigned int m_uiViewMaxTime;
+    int m_iTimeSeen;
+    unsigned int m_uiCursor;
 
 };
 

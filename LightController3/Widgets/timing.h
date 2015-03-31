@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <fmod.hpp>
 #include <fmod_common.h>
+#include <math.h>
 #include "dockablewindow.h"
 #include "lightsavailable.h"
 #include "faders.h"
@@ -24,6 +25,7 @@ using namespace std;
 #define TIME_RESOLUTION             10      //ms
 #define DEFAULT_VIEWABLE_TIME       10000   //ms
 #define MAX_ZOOM_OUT_FROM_DEFAULT   5       //times
+#define SCROLL_DIVISIONS            10      //divisions
 
 namespace Ui {
 class Timing;
@@ -65,10 +67,12 @@ private:
 
     void setTimeUI();
     void applyZoom();
+    void applyScroll();
 
 private slots:
     void zoomIn();
     void zoomOut();
+    void on_horizontalScrollBar_valueChanged(int value);
 
     void on_pushButtonSoundtrack_clicked();
     void on_pushButtonAddCue_clicked();
@@ -105,6 +109,9 @@ private:
 
     //UI
     int m_iZoom;
+    int m_iScrollBarPos;
+    int m_iTimeViewed;
+    int m_iDivision;
 };
 
 #endif // TIMING_H

@@ -176,11 +176,22 @@ void Timing::setTimeUI()
 
 void Timing::applyZoom()
 {
-    //TODO: Compute Boundaries
-    //unsigned int songBigDiv = m_uiSongLenght_ms/m_iZoom
+    m_iTimeViewed = DEFAULT_VIEWABLE_TIME * MAX_ZOOM_OUT_FROM_DEFAULT / m_iZoom;  //in ms
+
+    //Update Scrollbar
+    m_iDivision = (int)(SCROLL_DIVISIONS * (double)m_uiSongLenght_ms / (double)m_iTimeViewed);
+    ui->horizontalScrollBar->setMaximum(m_iDivision);
+
+    applyScroll();
+}
+
+void Timing::applyScroll()
+{
+    int iLowTimeBoundary = m_iScrollBarPos * m_uiSongLenght_ms / m_iDivision;
+    int iHighTimeBoundary = iLowTimeBoundary + m_iTimeViewed;
 
     for(int i = 0; i < m_ptrLightsAvailable->getNumOfFixturesAvailable(); i++){
-        //m_FixtureMainTimingArr[i]. TODO
+        m_FixtureMainTimingArr[i].setZoomBoundary(iLowTimeBoundary, iHighTimeBoundary);
     }
 }
 
@@ -197,6 +208,12 @@ void Timing::zoomOut()
         m_iZoom --;
         applyZoom();
     }
+}
+
+void Timing::on_horizontalScrollBar_valueChanged(int value)
+{
+    m_iScrollBarPos = value;
+    applyScroll();
 }
 
 void Timing::on_pushButtonSoundtrack_clicked()
@@ -227,7 +244,6 @@ void Timing::on_pushButtonPlay_clicked()
                                                     "Music(*.mp3)");
         if(!songPath.isEmpty()){
             loadSong(songPath);
-            //Dit it work?
             if(m_fmodMusic != NULL){
                 ui->pushButtonPlay->setText("Play");
             }
@@ -285,10 +301,18 @@ void Timing::update()
         on_pushButtonPlay_clicked();
     }
 
+    //Update scrollbar position
+    if((m_iScrollBarPos + (SCROLL_DIVISIONS / 2)) < (m_uiCursor_ms * m_iDivision / m_uiSongLenght_ms)){
+        ui->horizontalScrollBar->setSliderPosition(m_iScrollBarPos + 1);
+    }
+    else if(m_iScrollBarPos > (m_uiCursor_ms * m_iDivision / m_uiSongLenght_ms)){
+        ui->horizontalScrollBar->setSliderPosition(m_iScrollBarPos - 1);
+    }
+
     //Call Child
     int fixtAvailable = m_ptrLightsAvailable->getNumOfFixturesAvailable();
     for(int i = 0; i < fixtAvailable; i++)
     {
-        //TODO
+        m_FixtureMainTimingArr[i].setSongCursor(m_uiCursor_ms);
     }
 }
