@@ -197,16 +197,20 @@ void Timing::applyScroll()
 
 void Timing::zoomIn()
 {
-    //TODO: limit zoom
-    m_iZoom ++;
-    applyZoom();
+    if(ui->pushButtonPlay->text() != "import song"){
+        //TODO: limit zoom
+        m_iZoom ++;
+        applyZoom();
+    }
 }
 
 void Timing::zoomOut()
 {
-    if(m_iZoom > 1 ){
-        m_iZoom --;
-        applyZoom();
+    if(ui->pushButtonPlay->text() != "import song"){
+        if(m_iZoom > 1 ){
+            m_iZoom --;
+            applyZoom();
+        }
     }
 }
 

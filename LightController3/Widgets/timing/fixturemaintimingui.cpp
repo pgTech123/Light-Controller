@@ -13,12 +13,51 @@ FixtureMainTimingUI::FixtureMainTimingUI(QWidget *parent) :
 
     m_btnMenu = new QMenu();
     m_GraphScene = new QGraphicsScene(this);
+    m_GraphSceneCues = new QGraphicsScene(this);
+
+    m_bCtrlPressed = false;
 }
 
 FixtureMainTimingUI::~FixtureMainTimingUI()
 {
     delete ui;
     delete m_btnMenu;
+}
+
+void FixtureMainTimingUI::mousePressEvent(QMouseEvent* ev)
+{
+
+}
+
+void FixtureMainTimingUI::mouseReleaseEvent(QMouseEvent* ev)
+{
+
+}
+
+void FixtureMainTimingUI::wheelEvent(QWheelEvent* ev)
+{
+    if(m_bCtrlPressed){
+        if(ev->delta() > 0){
+            emit zoomIn();
+        }
+        else if (ev->delta() < 0){
+            emit zoomOut();
+        }
+    }
+}
+
+void FixtureMainTimingUI::keyPressEvent(QKeyEvent* ev)
+{
+    if(ev->key() == Qt::Key_Control){
+        m_bCtrlPressed = true;
+    }
+}
+
+void FixtureMainTimingUI::keyReleaseEvent(QKeyEvent* ev)
+{
+    if(ev->key() == Qt::Key_Control){
+        m_bCtrlPressed = false;
+    }
 }
 
 void FixtureMainTimingUI::setFixtureName(QString name)
@@ -57,9 +96,9 @@ void FixtureMainTimingUI::setZoomBoundary(unsigned int min, unsigned int max)
 {
     m_uiViewMinTime = min;
     m_uiViewMaxTime = max;
-    cout << m_uiViewMaxTime << endl;
     m_iTimeSeen = m_uiViewMaxTime - m_uiViewMinTime;
 
+    updateCueView();
     updateUI();
 }
 
@@ -101,4 +140,9 @@ void FixtureMainTimingUI::updateUI()
     }
 
     ui->graphicsView->setScene(m_GraphScene);
+}
+
+void FixtureMainTimingUI::updateCueView()
+{
+    //TODO
 }

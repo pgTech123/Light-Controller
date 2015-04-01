@@ -6,6 +6,9 @@
 #include <QList>
 #include <QMenu>
 #include <QGraphicsScene>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
 #include "../faders.h"
 
 #include <iostream>
@@ -22,6 +25,12 @@ class FixtureMainTimingUI : public QWidget
 public:
     explicit FixtureMainTimingUI(QWidget *parent = 0);
     ~FixtureMainTimingUI();
+
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
+    void wheelEvent(QWheelEvent*);
+    void keyPressEvent(QKeyEvent*);
+    void keyReleaseEvent(QKeyEvent*);
 
     void setFixtureName(QString name);
     void addFaderNames(QList<QString> name);
@@ -40,6 +49,9 @@ public slots:
 private slots:
     void updateUI();
 
+private:
+    void updateCueView();
+
 signals:
     void zoomIn();
     void zoomOut();
@@ -48,6 +60,10 @@ private:
     Ui::FixtureMainTimingUI *ui;
     QMenu *m_btnMenu;
     QGraphicsScene *m_GraphScene;
+    QGraphicsScene *m_GraphSceneCues;
+
+    //Pressed Key
+    bool m_bCtrlPressed;
 
     //Viewport
     unsigned int m_uiViewMinTime;
