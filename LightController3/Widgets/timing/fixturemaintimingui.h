@@ -14,6 +14,13 @@
 #include <iostream>
 using namespace std;
 
+typedef struct{
+    unsigned int timeID;
+    bool sharp; //true = sharp, false = smooth
+    //TODO: Fader data
+}Cue;
+
+
 namespace Ui {
 class FixtureMainTimingUI;
 }
@@ -28,6 +35,7 @@ public:
 
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
     void wheelEvent(QWheelEvent*);
     void keyPressEvent(QKeyEvent*);
     void keyReleaseEvent(QKeyEvent*);
@@ -43,6 +51,7 @@ public slots:
     void addCue();
     void toggleSharp_Smooth();
     void deleteCue();
+    void releaseCueSelection();
 
     void setSongCursor(unsigned int cursor);
 
@@ -55,6 +64,8 @@ private:
 signals:
     void zoomIn();
     void zoomOut();
+    void releaseCuesSelection();
+    void moveCursorTo(unsigned int);
 
 private:
     Ui::FixtureMainTimingUI *ui;
@@ -62,8 +73,19 @@ private:
     QGraphicsScene *m_GraphScene;
     QGraphicsScene *m_GraphSceneCues;
 
+    //Global
+    int m_iFixtureId;
+    Faders *m_FaderRef;
+
     //Pressed Key
     bool m_bCtrlPressed;
+    bool m_bShiftPressed;
+    bool m_bMousePressed;
+
+    //Cues
+    QList<Cue> m_ListCues;
+    QList<int> m_ListSelectedCues;
+    bool m_bImmunedCueRelease;
 
     //Viewport
     unsigned int m_uiViewMinTime;

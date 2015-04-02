@@ -86,9 +86,12 @@ void Timing::setLightsAvailable(LightsAvailable *lightsAvailable)
         connect(this, SIGNAL(addCue()), &m_FixtureMainTimingArr[i], SLOT(addCue()));
         connect(this, SIGNAL(toggleSharp_Smooth()), &m_FixtureMainTimingArr[i], SLOT(toggleSharp_Smooth()));
         connect(this, SIGNAL(deleteCue()), &m_FixtureMainTimingArr[i], SLOT(deleteCue()));
+        connect(&m_FixtureMainTimingArr[i], SIGNAL(releaseCuesSelection()), this, SLOT(releaseSelectedCues()));
 
         connect(&m_FixtureMainTimingArr[i], SIGNAL(zoomIn()), this, SLOT(zoomIn()));
         connect(&m_FixtureMainTimingArr[i], SIGNAL(zoomOut()), this, SLOT(zoomOut()));
+
+        connect(&m_FixtureMainTimingArr[i], SIGNAL(moveCursorTo(uint)), this, SLOT(setSongCurrentTime(uint)));
 
         //Add to UI
         ui->verticalLayoutScrollArea->addWidget(&m_FixtureMainTimingArr[i]);
@@ -119,9 +122,13 @@ unsigned int Timing::getSongCurrentTime()
 
 void Timing::setSongCurrentTime(unsigned int time_ms)
 {
+    if(time_ms >= m_uiSongLenght_ms){
+        return;
+    }
     m_fmodChannel->setPosition(time_ms, FMOD_TIMEUNIT_MS);
     m_uiCursor_ms = time_ms;
     setTimeUI();
+    update();
 }
 
 void Timing::initializeFMOD()
@@ -218,6 +225,13 @@ void Timing::on_horizontalScrollBar_valueChanged(int value)
 {
     m_iScrollBarPos = value;
     applyScroll();
+}
+
+void Timing::releaseSelectedCues()
+{
+    for(int i = 0; i < m_ptrLightsAvailable->getNumOfFixturesAvailable(); i++){
+        m_FixtureMainTimingArr[i].releaseCueSelection();
+    }
 }
 
 void Timing::on_pushButtonSoundtrack_clicked()

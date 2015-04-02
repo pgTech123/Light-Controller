@@ -53,7 +53,6 @@ public:
 
     unsigned int getSongTotalLenght();
     unsigned int getSongCurrentTime();
-    void setSongCurrentTime(unsigned int time_ms);
 
 signals:
     void addCue();
@@ -70,9 +69,13 @@ private:
     void applyScroll();
 
 private slots:
+    void setSongCurrentTime(unsigned int time_ms);
+
     void zoomIn();
     void zoomOut();
     void on_horizontalScrollBar_valueChanged(int value);
+
+    void releaseSelectedCues();
 
     void on_pushButtonSoundtrack_clicked();
     void on_pushButtonAddCue_clicked();
