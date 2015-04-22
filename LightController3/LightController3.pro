@@ -3,6 +3,7 @@ INCLUDEPATH += "./../External Dependency/fmod/inc"
 LIBS += "-L./../External Dependency/fmod/lib/x86_64/" -lfmod
 
 QT+=widgets
+QT += serialport
 
 SOURCES += \
     main.cpp \

@@ -4,18 +4,14 @@
 #include <QDockWidget>
 #include "dockablewindow.h"
 #include <QMessageBox>
+#include <QByteArray>
 #include <QTime>
 #include <QTimer>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
-#ifdef WIN32
-// Windows
-    #include "rs232win.h"
-#elif __unix__
-// Linux
-    #include "rs232linux.h"
-#else
-//TODO: Not Supported error + disable serial port dockable window
-#endif
+#include <iostream>
+using namespace std;
 
 namespace Ui {
 class SerialPort;
@@ -44,18 +40,18 @@ private slots:
 private:
     Ui::SerialPort *ui;
 
-    bool portConnected;
-
-    /* RS232 */
-    RS232 m_rs232;
+    bool m_bPortConnected;
+    QList<QSerialPortInfo> m_PortAvailable;
+    int m_iSelectedPort;
+    QSerialPort *m_serialPort;
 
     /* Timers */
-    QTime *tempsDEcriture;
-    QTimer *waitForNextWriting;
+    QTime *m_writingTime;
+    QTimer *m_timerWaitForNextWriting;
 
     /* Data to transmit */
-    int numberOfAddresses;
-    int *dataToTransmit;
+    int m_iNumberOfAddresses;
+    unsigned char *m_ucDataToTransmit;
 };
 
 #endif // SERIALPORT_H

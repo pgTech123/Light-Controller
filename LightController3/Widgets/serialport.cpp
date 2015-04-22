@@ -8,15 +8,20 @@ SerialPort::SerialPort(QWidget *parent) :
     ui->setupUi(this);
     ui->dockWidgetContents->setLayout(ui->gridLayout);
 
-    portConnected = false;
-    dataToTransmit = NULL;
-    numberOfAddresses = 0;
+    m_bPortConnected = false;
+    m_iSelectedPort = -1;
+    m_ucDataToTransmit = NULL;
+    m_iNumberOfAddresses = 0;
+    m_timerWaitForNextWriting = new QTimer(this);
+    m_serialPort = new QSerialPort(this);
 
-    tempsDEcriture = new QTime();
-    waitForNextWriting = new QTimer(this);
+    /* We set a pause of 10 ms between each writing on the serial port */
+    m_timerWaitForNextWriting->start(10);
 
-    /* We set a pause of 100 ms between each writing on the serial port */
-    waitForNextWriting->start(100);
+    m_PortAvailable = QSerialPortInfo::availablePorts();
+    for(int i = 0; i < m_PortAvailable.size(); i++){
+        ui->comboBoxSerialPort->addItem(m_PortAvailable.at(i).portName());
+    }
 
     autoconnect();
 }
@@ -25,17 +30,17 @@ SerialPort::~SerialPort()
 {
     delete ui;
 
-    if(portConnected ==true){
+    if(m_bPortConnected ==true){
         disconnectPort();
     }
-    if(dataToTransmit != NULL){
-        delete[] dataToTransmit;
+    if(m_ucDataToTransmit != NULL){
+        delete[] m_ucDataToTransmit;
     }
 }
 
 void SerialPort::on_pushButtonConnect_clicked()
 {
-    if(portConnected == false){
+    if(m_bPortConnected == false){
         initConnection();
     }
     else{   /*(ask if we want to disconnect)*/
@@ -53,7 +58,7 @@ void SerialPort::on_pushButtonConnect_clicked()
 
 void SerialPort::autoconnect()
 {
-    if(portConnected)
+    if(m_bPortConnected)
     {
         int answer = QMessageBox::warning(this, "Warning", "A port is already connected. Do you want to disconnect it?",
                                           QMessageBox::Yes | QMessageBox::No);
@@ -66,11 +71,10 @@ void SerialPort::autoconnect()
         }
     }
 
-    for(int i = 5; i >0; i--)
-    {
-        ui->spinBoxPortNum->setValue(i);
-        if(initConnection(true))
-        {
+    for(int i = 1; i < ui->comboBoxSerialPort->count(); i++){
+        m_iSelectedPort = i-1;
+        ui->comboBoxSerialPort->setCurrentIndex(i);
+        if(initConnection(true)){
             break;
         }
     }
@@ -78,53 +82,39 @@ void SerialPort::autoconnect()
 
 bool SerialPort::initConnection(bool silent)
 {
-    if(portConnected)
-    {
-        QMessageBox::warning(this, "Warning", "Port already connected");
+    if(m_bPortConnected){
+        QMessageBox::warning(this, "Warning", "There is already a port used by LightController3");
         return true;
     }
-    const char* comPortName;
-    int port = ui->spinBoxPortNum->value();
 
-    if(port == 1){
-        comPortName = "com1";
-    }
-    else if(port == 2){
-        comPortName = "com2";
-    }
-    else if(port == 3){
-        comPortName = "com3";
-    }
-    else if(port == 4){
-        comPortName = "com4";
-    }
-    else if(port == 5){
-        comPortName = "com5";
+    m_serialPort->setPortName(ui->comboBoxSerialPort->currentText());
+    m_serialPort->setBaudRate(QSerialPort::Baud19200);
+    m_serialPort->setDataBits(QSerialPort::Data8);
+    m_serialPort->setParity(QSerialPort::NoParity);
+    m_serialPort->setStopBits(QSerialPort::TwoStop);
+    m_serialPort->setFlowControl(QSerialPort::HardwareControl);
+    m_bPortConnected = m_serialPort->open(QIODevice::WriteOnly);
+
+    if(m_bPortConnected){
+        ui->labelConnectionStatus->setText("Connected");
+        ui->pushButtonConnect->setText("Disconnect");
+        connect(m_timerWaitForNextWriting,SIGNAL(timeout()),this,SLOT(writeOnPort()));
+        return true;
     }
     else{
-        QMessageBox::warning(this, "Error", "Invalid port number");
-        return false;
+        QMessageBox::critical(this, tr("Serial Port Error"), m_serialPort->errorString());
     }
 
-    if(!m_rs232.init(comPortName))
-    {
-        if(!silent){
-            QMessageBox::warning(this, "Error", "Unable to open the port specified");
-        }
-        return false;
-    }
-
-    portConnected = true;
-    ui->labelConnectionStatus->setText("Connected");
-    ui->pushButtonConnect->setText("Disconnect");
-    connect(waitForNextWriting,SIGNAL(timeout()),this,SLOT(writeOnPort()));
-    return true;
+    return false;
 }
 
 void SerialPort::disconnectPort()
 {
-    disconnect(waitForNextWriting,SIGNAL(timeout()),this,SLOT(writeOnPort()));
-    portConnected = false;
+    if(m_serialPort->isOpen()){
+        m_serialPort->close();
+    }
+    disconnect(m_timerWaitForNextWriting,SIGNAL(timeout()),this,SLOT(writeOnPort()));
+    m_bPortConnected = false;
     ui->labelConnectionStatus->setText("Not Connected");
     ui->pushButtonConnect->setText("Connect");
     ui->label_DigitWritingTime->setText("Unspecified");
@@ -136,49 +126,58 @@ void SerialPort::writeOnPort()
     /*    Tx -> Data     */
     /*    RTS -> Strobe  */
 
-    tempsDEcriture->start();
+    m_writingTime->start();
 
     //Writing
-    if(numberOfAddresses > 0)
+    if(m_iNumberOfAddresses > 0)
     {
-        for(int i = 0; i<numberOfAddresses; i++)
+        QByteArray byteArray;
+        for(int i = 0; i<m_iNumberOfAddresses; i++)
         {
-            //Write one address
-            m_rs232.write((long)dataToTransmit[i]);
+            byteArray.append((char)m_ucDataToTransmit[i]);
         }
 
-        m_rs232.strobe();
+        m_serialPort->write(byteArray);
 
-        //STATISTIQUES D'ÉCRITURE
-        ui->label_DigitWritingTime->setNum(tempsDEcriture->elapsed());    //on écrit le temps que ca a pris à écrire
-        waitForNextWriting->start(10);    //on crée un délais de 1ms avant la prochaine écriture
+        //Strobe
+        m_serialPort->setRequestToSend(true);
+        m_serialPort->setRequestToSend(false);
+
+        //Writing stats
+        ui->label_DigitWritingTime->setNum(m_writingTime->elapsed());    //on écrit le temps que ca a pris à écrire
+        m_timerWaitForNextWriting->start(10);    //on crée un délais de 1ms avant la prochaine écriture
     }
 }
 
 bool SerialPort::setNumberOfAddresses(int numOfAddr)
 {
-    if(numberOfAddresses > 0)
+    if(m_iNumberOfAddresses > 0)
     {
         return false;
     }
     else
     {
-        dataToTransmit = new int[numOfAddr];
+        if(m_ucDataToTransmit != NULL){
+            delete[] m_ucDataToTransmit;
+            m_ucDataToTransmit = NULL;
+        }
+        m_ucDataToTransmit = new unsigned char[numOfAddr];
         /* Fill everything with 0s */
         for(int i = 0; i < numOfAddr; i++)
         {
-            dataToTransmit[i] = 0;
+            m_ucDataToTransmit[i] = 0;
         }
-        numberOfAddresses = numOfAddr;
+        m_iNumberOfAddresses = numOfAddr;
     }
     return true;
 }
 
 bool SerialPort::setData(int iData, int iAddress)
 {
-    if(iAddress > 0 && iAddress < numberOfAddresses)
+    if(iAddress > 0 && iAddress < m_iNumberOfAddresses)
     {
-        dataToTransmit[iAddress] = iData;
+        //cout<< "Data changed" << endl;
+        m_ucDataToTransmit[iAddress] = (unsigned char)iData;
         return true;
     }
     return false;

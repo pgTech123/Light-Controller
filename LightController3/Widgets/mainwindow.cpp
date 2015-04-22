@@ -99,6 +99,8 @@ void MainWindow::initialize()
         //Insert all other element that needs to know which lights are available here
     }
 
+    fadersWindows.setSerialPort(&serialPortWindow);
+
     // Set access to faders
     fixturesWindow.setFaders(&fadersWindows);
     groupsWindows.setFaders(&fadersWindows);

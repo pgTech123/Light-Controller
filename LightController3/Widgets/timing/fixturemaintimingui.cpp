@@ -97,9 +97,9 @@ void FixtureMainTimingUI::setFixtureName(QString name)
 
 void FixtureMainTimingUI::addFaderNames(QList<QString> names)
 {
-    int numberOfFaders = names.size();
+    m_iNumberOfFaders = names.size();
 
-    for(int i = 0; i < numberOfFaders; i++)
+    for(int i = 0; i < m_iNumberOfFaders; i++)
     {
         QAction *action = m_btnMenu->addAction(names.at(i));
         //TODO: connect action
@@ -117,7 +117,10 @@ void FixtureMainTimingUI::setFaders(Faders *faders)
     m_FaderRef = faders;
 }
 
-void FixtureMainTimingUI::setSongLength(unsigned int){}//Not used...
+void FixtureMainTimingUI::setSongLength(unsigned int songLength)
+{
+    m_uiSongLength = songLength;
+}
 
 void FixtureMainTimingUI::setZoomBoundary(unsigned int min, unsigned int max)
 {
@@ -132,6 +135,12 @@ void FixtureMainTimingUI::setZoomBoundary(unsigned int min, unsigned int max)
 void FixtureMainTimingUI::addCue()
 {
     m_ListSelectedCues.clear();
+
+    //Build cue
+    Cue newCue;
+    newCue.faderConcerned.clear();
+    newCue.faderValue.clear();
+
 
     //Add Cue
     //TODO
@@ -171,7 +180,6 @@ void FixtureMainTimingUI::releaseCueSelection()
 void FixtureMainTimingUI::setSongCursor(unsigned int cursor)
 {
     m_uiCursor = cursor;
-    //TODO: call cues...
     updateUI();
 }
 
@@ -196,6 +204,14 @@ void FixtureMainTimingUI::updateUI()
 
 void FixtureMainTimingUI::updateCueView()
 {
+    //Erase
+    m_GraphSceneCues->clear();
+
+    //Outside song in an other color
+    if(m_uiViewMaxTime > m_uiSongLength){
+        //TODO: proportions + fill avec couleur
+    }
+
     for(int i = 0; i < m_ListCues.size(); i++){
         if(m_uiViewMinTime < m_ListCues.at(i).timeID &&
                 m_ListCues.at(i).timeID < m_uiViewMaxTime){

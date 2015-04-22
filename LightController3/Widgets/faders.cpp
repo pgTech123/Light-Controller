@@ -29,6 +29,7 @@ Faders::~Faders()
 void Faders::setLightsAvailable(LightsAvailable *lightsAvailable)
 {
     m_ptrLightsAvailable = lightsAvailable;
+    m_iTotalAddresses = 0;
 
     //Set Lights Status
     for(int fixt = 0; fixt < lightsAvailable->getNumOfFixturesAvailable(); fixt++){
@@ -36,9 +37,16 @@ void Faders::setLightsAvailable(LightsAvailable *lightsAvailable)
         for(int fad = 0; fad < lightsAvailable->getNumOfFadersForFixture(fixt); fad++){
             //Init all faders to 0
             fixture.faderValue.push_back(0);
+            m_iTotalAddresses ++;
         }
         m_LightsStatus.fixtureStatus.push_back(fixture);
     }
+}
+
+void Faders::setSerialPort(SerialPort *serialPortWidget)
+{
+    m_pSerialPortWidget = serialPortWidget;
+    m_pSerialPortWidget->setNumberOfAddresses(m_iTotalAddresses);
 }
 
 void Faders::accessFixture(int fixture)
@@ -106,6 +114,15 @@ void Faders::setFaderFromSlider(int fixture, int fader, int value)
         if(fader < m_ptrLightsAvailable->getNumOfFadersForFixture(fixture) && fader >= 0){
             if(value <= 255 && value >=0){
                 m_LightsStatus.fixtureStatus[fixture].faderValue[fader] = value;
+
+                //Write on serial port
+                int address = 0;
+                for(int i = 0; i < fixture; i++){
+                    address += m_LightsStatus.fixtureStatus[i].faderValue.size();
+                }
+                address += fader;
+                //cout << address << endl;
+                m_pSerialPortWidget->setData(value, address);
             }
         }
     }

@@ -12,12 +12,14 @@
 #include "../faders.h"
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 typedef struct{
     unsigned int timeID;
     bool sharp; //true = sharp, false = smooth
-    //TODO: Fader data
+    vector<bool> faderConcerned;
+    vector<int> faderValue;
 }Cue;
 
 
@@ -75,6 +77,7 @@ private:
 
     //Global
     int m_iFixtureId;
+    int m_iNumberOfFaders;
     Faders *m_FaderRef;
 
     //Pressed Key
@@ -92,6 +95,7 @@ private:
     unsigned int m_uiViewMaxTime;
     int m_iTimeSeen;
     unsigned int m_uiCursor;
+    unsigned int m_uiSongLength;
 
 };
 

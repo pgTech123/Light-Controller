@@ -17,6 +17,7 @@
 #include "dockablewindow.h"
 #include "lightsavailable.h"
 #include "singlefader.h"
+#include "serialport.h"
 
 using namespace std;
 
@@ -45,6 +46,7 @@ public:
     ~Faders();
 
     void setLightsAvailable(LightsAvailable *lightsAvailable);
+    void setSerialPort(SerialPort *serialPortWidget);
 
     void accessFixture(int fixture);
     void accessFixtures(QList<int> fixture, QString name="Group");
@@ -71,10 +73,14 @@ signals:
 
 private:
     Ui::Faders *ui;
+    SerialPort *m_pSerialPortWidget;
 
     LightsAvailable *m_ptrLightsAvailable;
     LightsStatus m_LightsStatus;
     SingleFader *m_SingleFaderArr;
+
+    //
+    int m_iTotalAddresses;
 };
 
 #endif // FADERS_H
