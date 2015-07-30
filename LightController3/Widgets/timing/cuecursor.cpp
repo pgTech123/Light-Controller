@@ -9,5 +9,5 @@ CueCursor::CueCursor(QWidget *parent) :
 
 void CueCursor::mousePressEvent(QMouseEvent *event)
 {
-    //TODO
+    //TODO: change color
 }

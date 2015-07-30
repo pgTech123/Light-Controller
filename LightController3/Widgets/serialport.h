@@ -33,6 +33,9 @@ public:
     bool setNumberOfAddresses(int numOfAddr);
     bool setData(int iData, int iAddress);
 
+private:
+    bool askForDisconnection();
+
 private slots:
     void on_pushButtonConnect_clicked();
     void writeOnPort();
@@ -40,7 +43,6 @@ private slots:
 private:
     Ui::SerialPort *ui;
 
-    bool m_bPortConnected;
     QList<QSerialPortInfo> m_PortAvailable;
     int m_iSelectedPort;
     QSerialPort *m_serialPort;

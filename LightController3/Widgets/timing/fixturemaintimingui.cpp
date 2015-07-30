@@ -19,10 +19,28 @@ FixtureMainTimingUI::FixtureMainTimingUI(QWidget *parent) :
     m_bShiftPressed = false;
     m_bMousePressed = false;
     m_bImmunedCueRelease = false;
+
+    m_iNumberOfFaders = 0;
+    m_ActionFadersSelection = NULL;
+    m_ChannelAvailable = NULL;
 }
 
 FixtureMainTimingUI::~FixtureMainTimingUI()
 {
+    if(m_ActionFadersSelection != NULL){
+        for(int i = 0; i < m_iNumberOfFaders; i++){
+            delete m_ActionFadersSelection[i];
+        }
+        delete[] m_ActionFadersSelection;
+    }
+
+    if(m_ChannelAvailable != NULL){
+        for(int i = 0; i < m_iNumberOfFaders; i++){
+            delete m_ChannelAvailable[i];
+        }
+        delete[] m_ChannelAvailable;
+    }
+
     delete ui;
     delete m_btnMenu;
 }
@@ -98,11 +116,18 @@ void FixtureMainTimingUI::setFixtureName(QString name)
 void FixtureMainTimingUI::addFaderNames(QList<QString> names)
 {
     m_iNumberOfFaders = names.size();
+    m_ActionFadersSelection = new QAction*[m_iNumberOfFaders];
+    m_ChannelAvailable = new Channel*[m_iNumberOfFaders];
 
     for(int i = 0; i < m_iNumberOfFaders; i++)
     {
-        QAction *action = m_btnMenu->addAction(names.at(i));
-        //TODO: connect action
+        m_ActionFadersSelection[i] = m_btnMenu->addAction(names.at(i));
+        m_ActionFadersSelection[i]->setCheckable(true);
+        m_ActionFadersSelection[i]->setChecked(true);
+
+        m_ChannelAvailable[i] = new Channel;
+
+        connect(m_ActionFadersSelection[i], SIGNAL(triggered(bool)), m_ChannelAvailable[i], SLOT(setVisible(bool)));
     }
     ui->toolButtonFaders->setMenu(m_btnMenu);
 }
@@ -200,6 +225,15 @@ void FixtureMainTimingUI::updateUI()
     }
 
     ui->graphicsView->setScene(m_GraphScene);
+}
+
+void FixtureMainTimingUI::on_pushButtonAllFaders_clicked()
+{
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        m_ActionFadersSelection[i]->setChecked(true);
+        m_ChannelAvailable[i]->setVisible(true);
+    }
 }
 
 void FixtureMainTimingUI::updateCueView()

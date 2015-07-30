@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "../faders.h"
+#include "channel.h"
 
 #include <iostream>
 #include <vector>
@@ -60,6 +61,8 @@ public slots:
 private slots:
     void updateUI();
 
+    void on_pushButtonAllFaders_clicked();
+
 private:
     void updateCueView();
 
@@ -84,6 +87,10 @@ private:
     bool m_bCtrlPressed;
     bool m_bShiftPressed;
     bool m_bMousePressed;
+
+    //Faders viewed
+    QAction **m_ActionFadersSelection;
+    Channel **m_ChannelAvailable;
 
     //Cues
     QList<Cue> m_ListCues;

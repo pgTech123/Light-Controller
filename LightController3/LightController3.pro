@@ -26,7 +26,8 @@ SOURCES += \
     Widgets/singlefader.cpp \
     Widgets/sceneediting.cpp \
     Widgets/timing/cuecursor.cpp \
-    Widgets/timing/fixturemaintimingui.cpp
+    Widgets/timing/fixturemaintimingui.cpp \
+    Widgets/timing/channel.cpp
 
 FORMS += \
     Widgets/mainwindow.ui \
@@ -62,4 +63,5 @@ HEADERS += \
     Widgets/singlefader.h \
     Widgets/sceneediting.h \
     Widgets/timing/cuecursor.h \
-    Widgets/timing/fixturemaintimingui.h
+    Widgets/timing/fixturemaintimingui.h \
+    Widgets/timing/channel.h
