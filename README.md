@@ -1,7 +1,7 @@
 Light-Controller
 ================
 
-This project is a mini light show setup. I guess it's best to show what it can do with a short video first :P.
+This project is a mini light show setup. I guess it's best to show what it can do with a short video first.
 https://www.youtube.com/watch?v=73we8rbzlRw
 
 ##Getting Started
