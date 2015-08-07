@@ -6,6 +6,8 @@
 #include <QList>
 #include <QMenu>
 #include <QGraphicsScene>
+#include <QPen>
+#include <QBrush>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -15,13 +17,6 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-typedef struct{
-    unsigned int timeID;
-    bool sharp; //true = sharp, false = smooth
-    vector<bool> faderConcerned;
-    vector<int> faderValue;
-}Cue;
 
 
 namespace Ui {
@@ -76,7 +71,7 @@ private:
     Ui::FixtureMainTimingUI *ui;
     QMenu *m_btnMenu;
     QGraphicsScene *m_GraphScene;
-    QGraphicsScene *m_GraphSceneCues;
+    QGraphicsLineItem *m_GraphCursor;
 
     //Global
     int m_iFixtureId;
@@ -88,14 +83,8 @@ private:
     bool m_bShiftPressed;
     bool m_bMousePressed;
 
-    //Faders viewed
-    QAction **m_ActionFadersSelection;
+    //Channel viewed
     Channel **m_ChannelAvailable;
-
-    //Cues
-    QList<Cue> m_ListCues;
-    QList<int> m_ListSelectedCues;
-    bool m_bImmunedCueRelease;
 
     //Viewport
     unsigned int m_uiViewMinTime;

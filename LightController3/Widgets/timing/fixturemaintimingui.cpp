@@ -13,44 +13,32 @@ FixtureMainTimingUI::FixtureMainTimingUI(QWidget *parent) :
 
     m_btnMenu = new QMenu();
     m_GraphScene = new QGraphicsScene(this);
-    m_GraphSceneCues = new QGraphicsScene(this);
+    m_GraphCursor = NULL;
 
     m_bCtrlPressed = false;
     m_bShiftPressed = false;
     m_bMousePressed = false;
-    m_bImmunedCueRelease = false;
 
     m_iNumberOfFaders = 0;
-    m_ActionFadersSelection = NULL;
     m_ChannelAvailable = NULL;
 }
 
 FixtureMainTimingUI::~FixtureMainTimingUI()
 {
-    if(m_ActionFadersSelection != NULL){
-        for(int i = 0; i < m_iNumberOfFaders; i++){
-            delete m_ActionFadersSelection[i];
-        }
-        delete[] m_ActionFadersSelection;
-    }
-
+    delete ui;
+    delete m_btnMenu;
     if(m_ChannelAvailable != NULL){
         for(int i = 0; i < m_iNumberOfFaders; i++){
             delete m_ChannelAvailable[i];
         }
         delete[] m_ChannelAvailable;
     }
-
-    delete ui;
-    delete m_btnMenu;
 }
 
 void FixtureMainTimingUI::mousePressEvent(QMouseEvent* ev)
 {
     m_bMousePressed = true;
     if(!m_bShiftPressed){
-        m_ListSelectedCues.clear();
-        m_bImmunedCueRelease = true;
         emit releaseCuesSelection();
     }
 
@@ -62,8 +50,8 @@ void FixtureMainTimingUI::mousePressEvent(QMouseEvent* ev)
         emit moveCursorTo(newCursorPos);
     }
 
-    //if(on cue): select
-    //else: release cue
+    //if(on cue): select/toggle
+    //else: emit release cue
 }
 
 void FixtureMainTimingUI::mouseReleaseEvent(QMouseEvent*)
@@ -116,18 +104,11 @@ void FixtureMainTimingUI::setFixtureName(QString name)
 void FixtureMainTimingUI::addFaderNames(QList<QString> names)
 {
     m_iNumberOfFaders = names.size();
-    m_ActionFadersSelection = new QAction*[m_iNumberOfFaders];
     m_ChannelAvailable = new Channel*[m_iNumberOfFaders];
 
     for(int i = 0; i < m_iNumberOfFaders; i++)
     {
-        m_ActionFadersSelection[i] = m_btnMenu->addAction(names.at(i));
-        m_ActionFadersSelection[i]->setCheckable(true);
-        m_ActionFadersSelection[i]->setChecked(true);
-
-        m_ChannelAvailable[i] = new Channel;
-
-        connect(m_ActionFadersSelection[i], SIGNAL(triggered(bool)), m_ChannelAvailable[i], SLOT(setVisible(bool)));
+        m_ChannelAvailable[i] = new Channel(m_btnMenu, names.at(i));
     }
     ui->toolButtonFaders->setMenu(m_btnMenu);
 }
@@ -159,47 +140,42 @@ void FixtureMainTimingUI::setZoomBoundary(unsigned int min, unsigned int max)
 
 void FixtureMainTimingUI::addCue()
 {
-    m_ListSelectedCues.clear();
+    emit releaseCueSelection();
 
-    //Build cue
-    Cue newCue;
-    newCue.faderConcerned.clear();
-    newCue.faderValue.clear();
-
-
-    //Add Cue
-    //TODO
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        if(m_ChannelAvailable[i]->isSelected()){
+            m_ChannelAvailable[i]->addCue(m_uiCursor);
+        }
+    }
 }
 
 void FixtureMainTimingUI::toggleSharp_Smooth()
 {
-    for(int i = 0; i < m_ListSelectedCues.size(); i++){
-        int currentCue = m_ListSelectedCues.at(i);
-        if(currentCue > m_ListCues.size()){
-            return;
-        }
-        if(m_ListCues.at(currentCue).sharp){
-            m_ListCues[currentCue].sharp = false;
-        }
-        else{
-            m_ListCues[currentCue].sharp = true;
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        if(m_ChannelAvailable[i]->isSelected()){
+            m_ChannelAvailable[i]->toggleSharpnessOnSelectedCues();
         }
     }
 }
 
 void FixtureMainTimingUI::deleteCue()
 {
-    for(int i = 0; i < m_ListSelectedCues.size(); i++){
-        //TODO: delete cues
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        if(m_ChannelAvailable[i]->isSelected()){
+            m_ChannelAvailable[i]->deleteSelectedCues();
+        }
     }
 }
 
 void FixtureMainTimingUI::releaseCueSelection()
 {
-    if(!m_bImmunedCueRelease){
-        m_ListSelectedCues.clear();
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        m_ChannelAvailable[i]->releaseCues();
     }
-    m_bImmunedCueRelease = false;
 }
 
 void FixtureMainTimingUI::setSongCursor(unsigned int cursor)
@@ -211,17 +187,16 @@ void FixtureMainTimingUI::setSongCursor(unsigned int cursor)
 void FixtureMainTimingUI::updateUI()
 {
     //Erase cursor
-    m_GraphScene->clear();
+    if(m_GraphCursor!= NULL)
+        m_GraphScene->removeItem((QGraphicsItem*)m_GraphCursor);
 
-    //TODO: copy cues to scene...
-    //(*m_GraphScene) = (*m_GraphSceneCues);
-
+    //Draw cursor
     if(m_uiViewMinTime < m_uiCursor && m_uiCursor < m_uiViewMaxTime){
         //Display cursor
         int timeFromMinViewed = m_uiCursor - m_uiViewMinTime;
         int iCursorPosInPixels = timeFromMinViewed * ui->graphicsView->width()/m_iTimeSeen;
         m_GraphScene->setSceneRect(0, 0, ui->graphicsView->width()-5, 168);
-        m_GraphScene->addLine(iCursorPosInPixels, 0, iCursorPosInPixels, 168);
+        m_GraphCursor = m_GraphScene->addLine(iCursorPosInPixels, 0, iCursorPosInPixels, 168);
     }
 
     ui->graphicsView->setScene(m_GraphScene);
@@ -231,7 +206,6 @@ void FixtureMainTimingUI::on_pushButtonAllFaders_clicked()
 {
     for(int i = 0; i < m_iNumberOfFaders; i++)
     {
-        m_ActionFadersSelection[i]->setChecked(true);
         m_ChannelAvailable[i]->setVisible(true);
     }
 }
@@ -239,26 +213,23 @@ void FixtureMainTimingUI::on_pushButtonAllFaders_clicked()
 void FixtureMainTimingUI::updateCueView()
 {
     //Erase
-    m_GraphSceneCues->clear();
+    m_GraphScene->clear();
+    m_GraphCursor = NULL;
 
     //Outside song in an other color
     if(m_uiViewMaxTime > m_uiSongLength){
-        //TODO: proportions + fill avec couleur
+        QPen pen;   //TODO: Set a color if there is an artist in the room.
+        QBrush brush(Qt::BDiagPattern);
+        unsigned int uiEndOfSong = (m_uiSongLength-m_uiViewMinTime)*ui->graphicsView->width()/m_iTimeSeen;
+        unsigned int uiWidthOfUnusedSpace = (m_uiViewMaxTime-m_uiSongLength)*ui->graphicsView->width()/m_iTimeSeen;
+        m_GraphScene->addRect(uiEndOfSong,0, uiWidthOfUnusedSpace, 168, pen, brush);
     }
 
-    for(int i = 0; i < m_ListCues.size(); i++){
-        if(m_uiViewMinTime < m_ListCues.at(i).timeID &&
-                m_ListCues.at(i).timeID < m_uiViewMaxTime){
-            //Draw cue
-        }
-    }
-
-    //Selected cues
-    for(int i = 0; i < m_ListSelectedCues.size(); i++){
-        int currentCue = m_ListSelectedCues.at(i);
-        if(m_uiViewMinTime < m_ListCues.at(currentCue).timeID &&
-                m_ListCues.at(currentCue).timeID < m_uiViewMaxTime){
-            //Color cue
+    for(int i = 0; i < m_iNumberOfFaders; i++)
+    {
+        if(m_ChannelAvailable[i]->isSelected()){
+            m_ChannelAvailable[i]->drawCuesBetween(m_GraphScene, m_uiViewMinTime, m_uiViewMaxTime);
         }
     }
 }
+
